@@ -11,8 +11,8 @@ Mand = numpy.array([0, 0, 0, 1])
 Mor = numpy.array([0, 1, 1, 0])
 
 
-weights = numpy.random.randn(4)
-bias = numpy.random.randn(4)
+weights = numpy.random.randn(2)
+bias = numpy.random.randn(2)
 print("weights are", weights)
 
 widehatY = Mx12 * weights + bias
