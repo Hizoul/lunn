@@ -22,9 +22,18 @@ def makeSet(nVal, degree):
   print("polyfitted is", polyfitted)
   polyvalued = np.polyval(polyfitted, xPoints)
   print("polyvalued", polyvalued)
+  meanSquaredError = 0
+  b = 0
+  for x in np.nditer(xPoints.T):
+    meanSquaredError = meanSquaredError + np.power((correspondingYVals[b] - polyvalued.T[b]), 2)
+    b = b + 1
+  meanSquaredError = meanSquaredError * 5
+  print("polyvalued", polyvalued)
+  print("meansquareerr is", meanSquaredError)
+  polyvalued = polyvalued + meanSquaredError
   plt.plot(xPoints, correspondingYVals, color="blue")
   plt.plot(xPoints, polyvalued, color="red")
-  fig.savefig("a22/noisyfitted" + str(nVal) + "d" + str(degree) + ".png")
+  fig.savefig("a24/noisyfitted" + str(nVal) + "d" + str(degree) + ".png")
 
 for nVal in n:
   for degree in degrees:

@@ -21,7 +21,6 @@ def makeSet(nVal, degree):
   polyfitted = np.polyfit(xPoints, correspondingYVals, degree)
   print("polyfitted is", polyfitted)
   polyvalued = np.polyval(polyfitted, xPoints)
-  print("polyvalued", polyvalued)
   plt.plot(xPoints, correspondingYVals, color="blue")
   plt.plot(xPoints, polyvalued, color="red")
   fig.savefig("a22/noisyfitted" + str(nVal) + "d" + str(degree) + ".png")
