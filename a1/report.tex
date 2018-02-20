@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{float}
+\makeatletter
+\newcommand\urlfootnote@[1]{\footnote{\url@{#1}}}
+\DeclareRobustCommand{\urlfootnote}{\hyper@normalise\urlfootnote@}
+\makeatother
+
+\begin{document}
+\title{Neural Networks Assignment 1}
+\author{Oliver Scherp\\Matthias Mueller-Brockhausen}
+\maketitle
+\lstset{
+  basicstyle=\ttfamily,
+  keywordstyle=\bfseries,
+  language=Java,
+  frame=single,
+  aboveskip=11pt,
+  belowskip=11pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  stepnumber=1,    
+  firstnumber=1,
+  numberfirstline=true
+}
+\section{Excercise 1}
+
+\end{document}
