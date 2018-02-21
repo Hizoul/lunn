@@ -1,17 +1,19 @@
+'''
+Created on 21.02.2018
+
+@author: Matthias Müller-Brockhausen & Oliver Scherf
+'''
 import numpy as np
 import sys
 
 import itertools
 import numpy as np
 import matplotlib.pyplot as plt
+import sklearn
 
 from sklearn import svm, datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
-
-class_names = range(0, 10)
-
-
 
 def plot_confusion_matrix(cm, classes,
                           normalize=True,
@@ -23,11 +25,6 @@ def plot_confusion_matrix(cm, classes,
     """
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
-
-    print(cm)
 
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
@@ -49,69 +46,88 @@ def plot_confusion_matrix(cm, classes,
 
 
 
-center = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-def classify(img):
-  global center
+def classify(img, center, distanceFunc):
   currentMin = sys.maxsize
   identifiedAs = -1
   for b in range(0, 10):
-    res = np.absolute(np.linalg.norm(center[b] - img))
+    res = distanceFunc(center[b], img)
     if currentMin > res:
       currentMin = res
       identifedAs = b
   return identifedAs
 
-def trainWith(trainIn, trainOut, fileName, newTitle):
-  global center
-  center = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  i = 0
-  meanSum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  meanOccurence = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  cloud = [[],[],[],[],[],[],[],[],[],[]]
 
-  for imgToBeRecognized in np.nditer(trainOut.T):
-    recognizedNumber = int(trainOut[i])
-    meanSum[recognizedNumber] += trainIn[i]
-    meanOccurence[recognizedNumber] += 1
-    cloud[recognizedNumber].append(trainIn[i])
+def euclidianDistance(a, b):
+    return np.absolute(np.linalg.norm(a - b))
+
+def pairDistanceMaker(algo):
+    def pairDistance(a, b):
+        res = sklearn.metrics.pairwise.pairwise_distances([a],[b], metric=algo)
+        #print(res)
+        return res
+    return pairDistance
+
+def trainWith(trainIn, trainOut, distanceFunc):
+  center = [0] * 10
+  meanSum = [0] * 10
+  meanOccurence = [0] * 10
+  cloud = [ [] for i in range(10) ]
+
+  # fill the cloud with data and prepare fo the computation of the mean for every digit
+  i = 0
+  for _ in np.nditer(trainOut.T):
+    actualNumber = int(trainOut[i])
+    meanSum[actualNumber] += trainIn[i]
+    meanOccurence[actualNumber] += 1
+    cloud[actualNumber].append(trainIn[i])
     i += 1
 
-  radius = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  # calculate radius and the center for each digit
+  radius = [0] * 10
   for b in range(0, 10):
     center[b] = meanSum[b] / meanOccurence[b]
     for img in cloud[b]:
-      res = np.absolute(np.linalg.norm(center[b] - img))
-      if res > radius[b]:
-        radius[b] = res
-  i = 0
-  correctClassifications = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  classificationAmount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      distance = distanceFunc(center[b], img)
+      if distance > radius[b]:
+        radius[b] = distance
+  return center      
+        
+def classifyDataset(setIn, setOut, center, distanceFunc, fileName, newTitle, metric):
+  # measure performance by creating confusion matrix
+  correctClassifications = [0] * 10
+  classificationAmount = [0] * 10
   confusionMatrix = np.zeros([10, 10])
-  for imgToBeRecognized in np.nditer(trainOut.T):
-    actualNumber = int(trainOut[i])
-    recognizedNumber = classify(trainIn[i])
+  i = 0
+  
+  for _ in np.nditer(setOut.T):
+    actualNumber = int(setOut[i])
+    recognizedNumber = classify(setIn[i], center, distanceFunc)
     confusionMatrix[actualNumber][recognizedNumber] += 1
     if (actualNumber == recognizedNumber):
       correctClassifications[actualNumber] += 1
     classificationAmount[actualNumber] += 1
     i += 1
+    
+  sum = 0
+  for i in range(0,10):
+      sum += correctClassifications[i]
+  
+  print("correct classified with "+ metric + " " + str(sum))
 
-  print("confusion matrix is")
-  print(confusionMatrix)
-
-  for b in range(0, 10):
-    print("number " + str(b) + "recognized in " + str(classificationAmount[b] / correctClassifications[b]))
   # Plot non-normalized confusion matrix
   plt.figure()
-  plot_confusion_matrix(confusionMatrix, classes=class_names,title=newTitle)
+  plot_confusion_matrix(confusionMatrix, classes=range(0, 10),title=newTitle)
   plt.savefig(fileName)
   
-
-trainIn1 = np.genfromtxt('../data/train_in.csv', delimiter=',')
-trainOut1 = np.genfromtxt('../data/train_out.csv', delimiter=',')
-
-trainWith(trainIn1, trainOut1, "trainingssetconfusionmatrix.png", "Confusion matrix for training set classification")
-testIn = np.genfromtxt('../data/test_in.csv', delimiter=',')
-testOut = np.genfromtxt('../data/test_out.csv', delimiter=',')
-
-trainWith(testIn, testOut, "testssetconfusionmatrix.png", "Confusion matrix for test set classification")
+def main():
+    trainIn = np.genfromtxt('../data/train_in.csv', delimiter=',')
+    trainOut = np.genfromtxt('../data/train_out.csv', delimiter=',')
+    testIn = np.genfromtxt('../data/test_in.csv', delimiter=',')
+    testOut = np.genfromtxt('../data/test_out.csv', delimiter=',')
+    for metric in ['cityblock', 'cosine', 'euclidean', 'l1', 'l2', 'manhattan']:
+        distFunc = pairDistanceMaker(metric)
+        center = trainWith(trainIn, trainOut, distFunc)
+        classifyDataset(testIn, testOut, center, distFunc, "Training Set CM " + metric + ".png", "Confusion matrix for training set classification with " + metric, metric)
+        
+if __name__ == "__main__":
+    main()
