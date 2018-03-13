@@ -34,12 +34,12 @@
 \section{Excercise 1: Image Distance}
 \label{a1}
 
-This is the table for our cloud distances.
+After running the program we received the following cloud distances for the digits 0 - 9 (see Table \ref{table:distances}):
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[]
+\begin{table}[H]
 	\centering
 	\label{my-label}
 	\begin{tabular}{lllllllllll}
@@ -56,37 +56,44 @@ This is the table for our cloud distances.
 		\multicolumn{1}{l|}{9} & \multicolumn{1}{l|}{11.49}                        & \multicolumn{1}{l|}{9.93}                         & \multicolumn{1}{l|}{8.89}                         & \multicolumn{1}{l|}{8.35}                         & \multicolumn{1}{l|}{6.01}                         & \multicolumn{1}{l|}{8.26}                         & \multicolumn{1}{l|}{10.44}                        & \multicolumn{1}{l|}{5.43}                         & \multicolumn{1}{l|}{6.40}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} \\ \cline{2-11} 	
 	\end{tabular}
 	\caption{Cloud distances for the digit 0 - 9}
+	\label{table:distances}
 \end{table}
 
-After calculating the distances between the different classes the most difficult digits to separate from each other are: \[ 7 \rightarrow 9; 4 \rightarrow 9; 3 \rightarrow 5; 9 \rightarrow 8\]
-
-This can be concluded by looking at the distance values. The lowest and hence most similar values we found were 5.43, 6.01, 6.12 and 6.4.
-These values were for classifying 7 to 9, 4 to 9, 3 to 5 and 9 to 8.
+When looking at the cloud distances, we can assume that the most difficult digits to separate from each other are: \[ 7 \leftrightarrow 9; 4 \leftrightarrow 9; 3 \leftrightarrow 5; 9 \leftrightarrow 8\]
+ 
+This can be concluded by looking at the distance values of these digits. The lowest distance and hence the most similar classes we found were 5.43, 6.01, 6.12 and 6.4.
+These are the distances for the digits mentioned above.
 This does make sense given that a 9 can be, if written by hand, sometimes hard to distinguish from a 7, 4 or 5.
 
-
+\newpage
 \section{Excercise 2}
 \subsection{Confusion Matrix Training and Test Set}
-%Which digits were most difficult to classify correctly?%
-%Describe your findings. Compare performance of your classifier on the train and test sets. %
-The confusion matrices can be found in Figure \ref{fig:cftrain} for the training set and in Figure \ref{fig:cftest} for the testing set.
-For the training set (Figure \ref{fig:cftrain}) the number 5 and 4 are most difficult to be classified. Very close in error rates and also harder to identify are 0, 2, 5, 6, 7, 8, 9. The only number with full accuracy is 1. This is quite surprising given that 1 and 7 sometimes look quite alike.
+The confusion matrix for the training set can be found in Figure \ref{fig:cftrain} and the confusion matrix for the test set can be found in Figure \ref{fig:cftest}.
+Each element shows the rate of correct classifications,hence a value above 1 is not possible.
+The y-axis indicates the recognized number, while the x-axis indicates the actual number of a sample.
+For example: A value of 0.7 expresses, that the recognized number was identified as the actual number in 70\% of the test cases.
 
-For the testing set (Figure \ref{fig:cftest}) the number 2 is most difficult to classify. Followed by 8, 0, 9, 7 and 3. Also here we have full accuracy for the digit 1.
+For the training set the numbers 4 and 5 are most difficult to classify. The only number with no misclassification is 1. This is quite surprising given that 1 and 7 sometimes look quite alike.
+
+For the test set (Figure \ref{fig:cftest}) the number 2 is most difficult to classify. Followed by 0, 8, 9, 7 and 3. Also here we have almost full accuracy for the digit 1 (99\%).
+
+
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/cftrain.png}
-\caption{Confusion Matrix visualized for training set}
+\includegraphics[width=0.9\linewidth]{img/TrainingSetCMeuclidean.png}
+\caption{Confusion Matrix for the training set}
 \label{fig:cftrain}
 \end{figure}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/cftest.png}
-\caption{Confusion Matrix visualized for test set}
+\includegraphics[width=0.9\linewidth]{img/TestSetCMeuclidean.png}
+\caption{Confusion Matrix for the test set}
 \label{fig:cftest}
 \end{figure}
+
+
 
 \subsection{Comparison to expectations from A1}
 %How do the results compare to the observations you’ve made in Step 1? How would you explain it?%
@@ -95,18 +102,20 @@ If we look at the confusion matrix of the training set our expectations are most
 For the test set however this does not prove to be true. Here the most often misclassified numbers are 2 $\rightarrow$ 8, 0 $\rightarrow$ 6 and 9 $\rightarrow$ 4.
 
 This difference could be explained by the amount of actual sample numbers per digit in the classified set.
-And of course overfitting might also play a role in the differing results.
+But more likely the phenomena of \emph{overfitting} plays a huge role in the differing results.
 
 \subsection{Evaluating different performance measures}
 %Which distance measure provides best results (on the test set)?%
 In order to determine which distance provider faired out the best, we applied each of them to the test set and measured the amount of correctly classified occurrences.
 
-Doing so provided us the following results (sorted by best first):
+Results for the test set (sorted by best first):
 \begin{itemize}
 \item Euclidian (L2): 80.4\% $\rightarrow$ 804 / 1000 correctly classified
 \item Cosine 79.9\% $\rightarrow$ 799 / 1000 correctly classified
-\item Cityblock / Manhattan / L1: 72.1\% $\rightarrow$ 721 / 1000 correctly classified
+\item Manhattan (Cityblock, L1): 72.1\% $\rightarrow$ 721 / 1000 correctly classified
 \end{itemize}
+
+As you can obviously tell, the euclidian distance turns out to be best (for this example of course).
 
 \section{Excercise 3: Bayesian Classification}
 %Which feature do you want to use to discriminate between the two classes?%
