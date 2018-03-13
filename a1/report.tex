@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{hyperref}
@@ -34,7 +35,28 @@
 \label{a1}
 
 This is the table for our cloud distances.
-%todo   table%
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+	\centering
+	\label{my-label}
+	\begin{tabular}{lllllllllll}
+		                      & 0                                                 & 1                                                 & 2                                                 & 3                                                 & 4                                                 & 5                                                 & 6                                                 & 7                                                 & 8                                                 & 9                                                 \\ \cline{2-11} 
+		\multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{14.45}                        & \multicolumn{1}{l|}{9.33}                         & \multicolumn{1}{l|}{9.14}                         & \multicolumn{1}{l|}{10.77}                        & \multicolumn{1}{l|}{7.52}                         & \multicolumn{1}{l|}{8.15}                         & \multicolumn{1}{l|}{11.86}                        & \multicolumn{1}{l|}{9.91}                         & \multicolumn{1}{l|}{11.49}                        \\ \cline{2-11} 
+		\multicolumn{1}{l|}{1} & \multicolumn{1}{l|}{14.45}                        & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{10.13}                        & \multicolumn{1}{l|}{11.73}                        & \multicolumn{1}{l|}{10.17}                        & \multicolumn{1}{l|}{11.12}                        & \multicolumn{1}{l|}{10.61}                        & \multicolumn{1}{l|}{10.74}                        & \multicolumn{1}{l|}{10.09}                        & \multicolumn{1}{l|}{9.93}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{2} & \multicolumn{1}{l|}{9.33}                         & \multicolumn{1}{l|}{10.13}                        & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{8.18}                         & \multicolumn{1}{l|}{7.93}                         & \multicolumn{1}{l|}{7.91}                         & \multicolumn{1}{l|}{7.33}                         & \multicolumn{1}{l|}{8.87}                         & \multicolumn{1}{l|}{7.08}                         & \multicolumn{1}{l|}{8.89}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{3} & \multicolumn{1}{l|}{9.14}                         & \multicolumn{1}{l|}{11.73}                        & \multicolumn{1}{l|}{8.18}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{9.09}                         & \multicolumn{1}{l|}{6.12}                         & \multicolumn{1}{l|}{9.30}                         & \multicolumn{1}{l|}{8.92}                         & \multicolumn{1}{l|}{7.02}                         & \multicolumn{1}{l|}{8.35}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{4} & \multicolumn{1}{l|}{10.77}                        & \multicolumn{1}{l|}{10.17}                        & \multicolumn{1}{l|}{7.93}                         & \multicolumn{1}{l|}{9.09}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{8.00}                         & \multicolumn{1}{l|}{8.78}                         & \multicolumn{1}{l|}{7.58}                         & \multicolumn{1}{l|}{7.38}                         & \multicolumn{1}{l|}{6.01}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{5} & \multicolumn{1}{l|}{7.52}                         & \multicolumn{1}{l|}{11.12}                        & \multicolumn{1}{l|}{7.91}                         & \multicolumn{1}{l|}{6.12}                         & \multicolumn{1}{l|}{8.00}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{6.70}                         & \multicolumn{1}{l|}{9.21}                         & \multicolumn{1}{l|}{6.97}                         & \multicolumn{1}{l|}{8.26}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{6} & \multicolumn{1}{l|}{8.15}                         & \multicolumn{1}{l|}{10.61}                        & \multicolumn{1}{l|}{7.33}                         & \multicolumn{1}{l|}{9.30}                         & \multicolumn{1}{l|}{8.78}                         & \multicolumn{1}{l|}{6.70}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{10.89}                        & \multicolumn{1}{l|}{8.59}                         & \multicolumn{1}{l|}{10.44}                        \\ \cline{2-11} 
+		\multicolumn{1}{l|}{7} & \multicolumn{1}{l|}{11.86}                        & \multicolumn{1}{l|}{10.74}                        & \multicolumn{1}{l|}{8.87}                         & \multicolumn{1}{l|}{8.92}                         & \multicolumn{1}{l|}{7.58}                         & \multicolumn{1}{l|}{9.21}                         & \multicolumn{1}{l|}{10.89}                        & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{8.47}                         & \multicolumn{1}{l|}{5.43}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{8} & \multicolumn{1}{l|}{9.91}                         & \multicolumn{1}{l|}{10.09}                        & \multicolumn{1}{l|}{7.08}                         & \multicolumn{1}{l|}{7.02}                         & \multicolumn{1}{l|}{7.38}                         & \multicolumn{1}{l|}{6.97}                         & \multicolumn{1}{l|}{8.59}                         & \multicolumn{1}{l|}{8.47}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} & \multicolumn{1}{l|}{6.40}                         \\ \cline{2-11} 
+		\multicolumn{1}{l|}{9} & \multicolumn{1}{l|}{11.49}                        & \multicolumn{1}{l|}{9.93}                         & \multicolumn{1}{l|}{8.89}                         & \multicolumn{1}{l|}{8.35}                         & \multicolumn{1}{l|}{6.01}                         & \multicolumn{1}{l|}{8.26}                         & \multicolumn{1}{l|}{10.44}                        & \multicolumn{1}{l|}{5.43}                         & \multicolumn{1}{l|}{6.40}                         & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}0.00} \\ \cline{2-11} 	
+	\end{tabular}
+	\caption{Cloud distances for the digit 0 - 9}
+\end{table}
 
 After calculating the distances between the different classes the most difficult digits to separate from each other are: \[ 7 \rightarrow 9; 4 \rightarrow 9; 3 \rightarrow 5; 9 \rightarrow 8\]
 
