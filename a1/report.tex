@@ -82,13 +82,13 @@ For the test set (Figure \ref{fig:cftest}) the number 2 is most difficult to cla
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/TrainingSetCMeuclidean.png}
+\includegraphics[width=0.9\linewidth]{img/2/Training-Set-CM-euclidean.png}
 \caption{Confusion Matrix for the training set}
 \label{fig:cftrain}
 \end{figure}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/TestSetCMeuclidean.png}
+\includegraphics[width=0.9\linewidth]{img/2/Test-Set-CM-euclidean.png}
 \caption{Confusion Matrix for the test set}
 \label{fig:cftest}
 \end{figure}
@@ -115,180 +115,122 @@ Results for the test set (sorted by best first):
 \item Manhattan (Cityblock, L1): 72.1\% $\rightarrow$ 721 / 1000 correctly classified
 \end{itemize}
 
-As you can obviously tell, the euclidian distance turns out to be best (for this example of course).
+As you can obviously tell, the euclidian distance turns out to be best (only for this example of course).
 
-\section{Excercise 3: Bayesian Classification}
-%Which feature do you want to use to discriminate between the two classes?%
+\section{Exercise 3: Bayesian Classification}
+For this exercise we implemented the bayer rule classifier according to the lecture. In this section we will first discuss the chosen feature and digits.
+After that we will take a look at the achieved results.
+
 \subsection{Feature \& Test Digits}
-We will be comparing the digits \textbf{1} and \textbf{8}.
-To compare these two numbers we will use the ratio between the upper half of the image and the lower half of the image. We decided to use this feature because it is dead simple to extract, but should be different enough to distinguish a 1 and 8.
+We will be comparing the digits \textbf{7} and \textbf{8}.
+To compare these two numbers we will use the ratio between the upper and the lower half of the image. We decided to use this feature because it is dead simple to extract, but should be different enough to distinguish between a 7 and an 8. While the ratio for the digit 8 should be around 1, the ratio for the digit 7 should be above 1.
 
 
 %Implement your feature, apply it to the training data, discretize it and create corresponding histograms.%
 \subsection{Histogram}
-The histogram can be seen in Figure \ref{fig:histogram}.
-From the histogram we concluded that around 1.10 and 1.15 might be a good point to discretize the two classes.
+The histogram for the digits 7 and 8 with our feature applied can be seen in Figure \ref{fig:histogram}.
+As you can see, the overlapping area is quite small. Only between around 1.3 to 1.5 it might be difficult to separate the two digits.
 
-%What accuracy have you achieved?%
-We achieved an accuracy of 56.338\%, which is given the simple classifier to be expected. This bad quality was already foreseeable given that there is quite a big overlap at the point of discretization between the classes. (120 correctly classified out of 213)
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/histogram.png}
-\caption{Histogram for identifying Digit 1 and Digit 8 based on our selected feature.}
-\label{fig:histogram}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/3/histogram.png}
+	\caption{Histogram for identifying digit 7 and digit 8 based on our selected feature.}
+	\label{fig:histogram}
 \end{figure}
+
+\subsection{Results}
+We achieved an accuracy of 92.95\% on the test set. Out of 156 samples 145 turns out to be classified correctly. This is a good result, given that the feature is very simple.
+
 
 \section{Exercise 4: Multiclass Perceptron}
 %Train your network on the train set and evaluate on both the train and the test set, in the same way as you did in the previous steps%
-We implemented the net as specified and let it run till it reaches a 100\% accuarcy on the training set. This will surely lead to overfitting.
-It takes around 230 to 300 iterations until the weights for the training set results in 100\% accuracy.
-When applying the net to the test set we achieved an accuracy of 0.86\%.
-Our resulting confusion matrix can be seen in Figure \ref{fig:cmperceptron}. It shows that the numbers hardest to classify seem to be 5 and 4.
+We implemented the net as specified and let it run till it reaches a 100\% accuarcy on the training set.
+This will surely lead to \emph{overfitting} to the training set.
+Depending on the initialization of the weights, it takes around 230 to 300 iterations until the weights for the training set results in 100\% accuracy.
+When applying the net to the test set we achieved an accuracy of around 86.6\%.
+Our resulting confusion matrix can be seen in Figure \ref{fig:cmperceptron}. It shows that the numbers hardest to classify seem to be 4 and 5.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/cmperceptron.png}
-\caption{Histogram for identifying Digit 1 and Digit 8 based on our selected feature.}
+\includegraphics[width=0.9\linewidth]{img/4/cm_multi_class_perceptron.png}
+\caption{Confusion matrix for the multiclass perceptron net.}
 \label{fig:cmperceptron}
 \end{figure}
+
+Overall 863 of 1000 test samples were classified correctly.
+
 
 \section{Excercise 5: Gradient Descent}
 %monitor two values: the MSE made by your network on the training set (it should be dropping), and the number of misclassified inputs.%
 %alternative functions tanh, relu%
 %using various initialization strategies and values of the learning rate%
-In order to monitor the MSE for the different activation functions we decided to plot a line chart where on the x-axis the amount of iterations and on the y-axis the MSE is portrayed. We purposely did not include the initial MSE, because it heavily drops after the first iteration. This is especially true for the \emph{hyperbolic tangent} which sometimes starts at $MSE=100$.
+In order to monitor the \emph{mean-squared-error} (MSE) for different activation functions, different weight initialization strategies and different learning rates we decided to plot multiple line charts where on the x-axis the amount of iterations and on the y-axis the MSE is portrayed.
+We purposely did not include the initial MSE, because it heavily drops after the first iteration.
+This is especially true for the \emph{hyperbolic tangent} which sometimes starts at $MSE=100$.
 
-Other possible conclusions include that the \emph{sigmoid} function benefits from a learning rate $r>0.1$ where as the \emph{linear rectifier} and \emph{hyperbolic tangent} are better if the learning rate $r\leq1$.
+We did the same with the misclassified inputs, but obviously the y-axis displays the number of misclassified inputs this time.
 
-Given the evaluation graphs we can conclude that the \emph{sigmoid} activation function performs best if the learning rate is very high (e.g. 4) and the weights are initialized randomly (see Figure \ref{fig:mser4}).  Here we almost reach an MSE of 0.
+\subsection{Test cases}
 
-The \emph{linear rectifier} activation function usually produces very bad results, except if the learning rate is 0.1 and the weights are initialized randomly where it almost reaches an MSE of 0 (see Figure \ref{fig:mser01}).
+We thought about some test cases and decided to test with the following strategies:
 
-The \emph{hyperbolic tangent} activation function is quite unpredictable. Usually it produces very bad results, or jitters heavily per iteration (see Figure \ref{fig:mser05}). Although at one point it reaches the very best value of around 0.4, it immediately jitters back and in the end it stays at an MSE of 1.5 which is very bad.
-The best stable result we were able to achieve is with a learning rate of 0.1 and weights initialized randomly.
+\begin{itemize}
+\item{Learning rate $\eta = \{0.1\ |\ 0.5\ |\ 1.0\ |\ 2.0\ |\ 4.0 \}$}
+\item{Weight initialization strategy: $w = \{ random\ |\ all\ 0.0\ |\ all\ 0.5\ |\ all\ 1.0\}$}
+\item{Activation function $\phi = \{sigmoid | linear rectifier | hyberbolic tangent\}$}
+\end{itemize}
 
-% try more learning rates%
 
-%all random%
+% TODO HYPERBOLIC ACTIVATION FUNCTION IMPLEMENTATION IS WRONG!
+
+\subsection{Evaluation}
+We combined all possible combinations to evaluate the best strategy.
+To compare the three activation functions, we decided to plot them all together in one chart.
+After generating the plots, we looked for the best results for every activation function.
+\\
+
+Given the evaluation graphs we can conclude that the \emph{sigmoid} activation function performs best if the learning rate is very high ($\eta = 2$) and the weights are initialized randomly (see Figure \ref{fig:best_result_sigmoid_mse}).  Here we almost reach $MSE = 0$. You can also see the good result in the graph of the misclassified inputs (see Figure \ref{fig:best_result_sigmoid_inputs}. After around 230 iterations the neural network classifies all inputs correctly (with the sigmoid activation function).
+
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_randomexceptbiassesare1_01.png}
-\caption{MSE evolution with all weights initialized randomly and learning rate 0.1}
-\label{fig:mser01}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/5/sigmoid-mse.png}
+	\caption{MSE evolution with all weights initialized randomly and learning rate 2}
+	\label{fig:best_result_sigmoid_mse}
 \end{figure}
+
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_randomexceptbiassesare1_05.png}
-\caption{MSE evolution with all weights initialized randomly and learning rate 0.5}
-\label{fig:mser05}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_randomexceptbiassesare1_1.png}
-\caption{MSE evolution with all weights initialized randomly and learning rate 1}
-\label{fig:mser1}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_randomexceptbiassesare1_2.png}
-\caption{MSE evolution with all weights initialized randomly and learning rate 2}
-\label{fig:mser2}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_randomexceptbiassesare1_4.png}
-\caption{MSE evolution with all weights initialized randomly and learning rate 4}
-\label{fig:mser4}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/5/sigmoid-inputs.png}
+	\caption{Misclassified inputs with all weights initialized randomly and learning rate 2}
+	\label{fig:best_result_sigmoid_inputs}
 \end{figure}
 
 
-%all 05 %
+The \emph{linear rectifier} activation function usually produces very bad results, except if the learning rate is 0.1 and the weights are initialized randomly where it almost reaches $MSE = 0$ (see Figure \ref{fig:best_result_linrect_mse}). After around 400 iterations the neural network classifies all inputs correctly (with the linear rectifier activation function).
+
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all05exceptbiassesare1_01.png}
-\caption{MSE evolution with all weights set to 0.5 and learning rate 0.1}
-\label{fig:mse0501}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all05exceptbiassesare1_05.png}
-\caption{MSE evolution with all weights set to 0.5 and learning rate 0.5}
-\label{fig:mse0505}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all05exceptbiassesare1_1.png}
-\caption{MSE evolution with all weights set to 0.5 and learning rate 1}
-\label{fig:mse051}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all05exceptbiassesare1_2.png}
-\caption{MSE evolution with all weights set to 0.5 and learning rate 2}
-\label{fig:mse052}
-\end{figure}
-%all 1 %
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all1_01.png}
-\caption{MSE evolution with all weights set to 1 and learning rate 0.1}
-\label{fig:mse101}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all1_05.png}
-\caption{MSE evolution with all weights set to 1 and learning rate 0.5}
-\label{fig:mse105}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all1_1.png}
-\caption{MSE evolution with all weights set to 1 and learning rate 1}
-\label{fig:mse11}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all1_2.png}
-\caption{MSE evolution with all weights set to 1 and learning rate 2}
-\label{fig:mse12}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all1_4.png}
-\caption{MSE evolution with all weights set to 1 and learning rate 4}
-\label{fig:mse14}
-\end{figure}
-%all 0%
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all0exceptbiassesare1_01.png}
-\caption{MSE evolution with all weights set to 0 and learning rate 0.1}
-\label{fig:mse201}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all0exceptbiassesare1_05.png}
-\caption{MSE evolution with all weights set to 0 and learning rate 0.5}
-\label{fig:mse205}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all0exceptbiassesare1_1.png}
-\caption{MSE evolution with all weights set to 0 and learning rate 1}
-\label{fig:mse12}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all0exceptbiassesare1_2.png}
-\caption{MSE evolution with all weights set to 0 and learning rate 2}
-\label{fig:mse22}
-\end{figure}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\linewidth]{img/mse_all0exceptbiassesare1_4.png}
-\caption{MSE evolution with all weights set to 0 and learning rate 4}
-\label{fig:mse24}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/5/linear-rectifier-mse.png}
+	\caption{MSE evolution with all weights initialized randomly and learning rate 0.1}
+	\label{fig:best_result_linrect_mse}
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/5/linear-rectifier-inputs.png}
+	\caption{Misclassified inputs with all weights initialized randomly and learning rate 0.1}
+	\label{fig:best_result_linrect_inputs}
+\end{figure}
+
+
+The \emph{hyperbolic tangent} activation function is quite unpredictable. Usually it produces very bad results, or the MSE jitters heavily per iteration (see Figure \ref{fig:tangent-jitter}).
+The best stable result we were able to achieve have the same parameters as the best linear rectifier result. The MSE reaches almost 0 after 375 iterations (see Figure \ref{fig:best_result_linrect_mse}). Also after around 375 iterations, all inputs are classified correctly (see Figure \ref{fig:best_result_linrect_inputs}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/5/tangent-jitter.png}
+	\caption{Misclassified inputs with all weights initialized randomly and learning rate 0.5}
+	\label{fig:tangent-jitter}
+\end{figure}
 
 
 \end{document}
