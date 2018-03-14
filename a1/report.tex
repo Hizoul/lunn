@@ -31,7 +31,7 @@
   firstnumber=1,
   numberfirstline=true
 }
-\section{Excercise 1: Image Distance}
+\section{Task 1: Image Distances}
 \label{a1}
 
 After running the program we received the following cloud distances for the digits 0 - 9 (see Table \ref{table:distances}):
@@ -66,7 +66,7 @@ These are the distances for the digits mentioned above.
 This does make sense given that a 9 can be, if written by hand, sometimes hard to distinguish from a 7, 4 or 5.
 
 \newpage
-\section{Excercise 2}
+\section{Task 2: Distance-based classifier}
 \subsection{Confusion Matrix Training and Test Set}
 The confusion matrix for the training set can be found in Figure \ref{fig:cftrain} and the confusion matrix for the test set can be found in Figure \ref{fig:cftest}.
 Each element shows the rate of correct classifications,hence a value above 1 is not possible.
@@ -117,7 +117,7 @@ Results for the test set (sorted by best first):
 
 As you can obviously tell, the euclidian distance turns out to be best (only for this example of course).
 
-\section{Exercise 3: Bayesian Classification}
+\section{Task 3: Bayesian Classification}
 For this exercise we implemented the bayer rule classifier according to the lecture. In this section we will first discuss the chosen feature and digits.
 After that we will take a look at the achieved results.
 
@@ -142,7 +142,7 @@ As you can see, the overlapping area is quite small. Only between around 1.3 to 
 We achieved an accuracy of 92.95\% on the test set. Out of 156 samples 145 turns out to be classified correctly. This is a good result, given that the feature is very simple.
 
 
-\section{Exercise 4: Multiclass Perceptron}
+\section{Task 4: Multiclass Perceptron}
 %Train your network on the train set and evaluate on both the train and the test set, in the same way as you did in the previous steps%
 We implemented the net as specified and let it run till it reaches a 100\% accuarcy on the training set.
 This will surely lead to \emph{overfitting} to the training set.
@@ -159,7 +159,7 @@ Our resulting confusion matrix can be seen in Figure \ref{fig:cmperceptron}. It 
 Overall 864 of 1000 test samples were classified correctly.
 
 
-\section{Excercise 5: Gradient Descent}
+\section{Task 5: Gradient Descent}
 %monitor two values: the MSE made by your network on the training set (it should be dropping), and the number of misclassified inputs.%
 %alternative functions tanh, relu%
 %using various initialization strategies and values of the learning rate%
