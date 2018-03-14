@@ -147,7 +147,7 @@ We achieved an accuracy of 92.95\% on the test set. Out of 156 samples 145 turns
 We implemented the net as specified and let it run till it reaches a 100\% accuarcy on the training set.
 This will surely lead to \emph{overfitting} to the training set.
 Depending on the initialization of the weights, it takes around 230 to 300 iterations until the weights for the training set results in 100\% accuracy.
-When applying the net to the test set we achieved an accuracy of around 86.6\%.
+When applying the net to the test set we achieved an accuracy of around 86.4\%.
 Our resulting confusion matrix can be seen in Figure \ref{fig:cmperceptron}. It shows that the numbers hardest to classify seem to be 4 and 5.
 \begin{figure}[H]
 \centering
@@ -156,7 +156,7 @@ Our resulting confusion matrix can be seen in Figure \ref{fig:cmperceptron}. It 
 \label{fig:cmperceptron}
 \end{figure}
 
-Overall 863 of 1000 test samples were classified correctly.
+Overall 864 of 1000 test samples were classified correctly.
 
 
 \section{Excercise 5: Gradient Descent}
@@ -200,7 +200,7 @@ Given the evaluation graphs we can conclude that the \emph{sigmoid} activation f
 \end{figure}
 
 
-The \emph{linear rectifier (relu)} activation function usually produces very bad results, except if the learning rate is 0.1 and the weights are initialized randomly where it almost reaches $MSE = 0$ (see Figure \ref{fig:best_result_linrect_mse}). After around 400 iterations the neural network classifies all inputs correctly (with the linear rectifier activation function).
+The \emph{linear rectifier (relu)} activation function usually produces very bad results, except if the learning rate is 0.1 and the weights are initialized randomly where it almost reaches $MSE = 0$ (see Figure \ref{fig:best_result_linrect_mse}). After around 400 iterations the neural network classifies all inputs correctly (with the linear rectifier activation function) (see Figure \ref{fig:best_result_linrect_inputs}).
 
 \begin{figure}[H]
 	\centering
