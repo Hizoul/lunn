@@ -176,7 +176,7 @@ We thought about some test cases and decided to test with the following strategi
 \begin{itemize}
 \item{Learning rate $\eta = \{0.1\ |\ 0.5\ |\ 1.0\ |\ 2.0\ |\ 4.0 \}$}
 \item{Weight initialization strategy: $w = \{ random\ |\ all\ 0.0\ |\ all\ 0.5\ |\ all\ 1.0\}$}
-\item{Activation function $\phi = \{sigmoid | linear rectifier | hyberbolic tangent\}$}
+\item{Activation function $\phi = \{sigmoid\ |\ relu\ |\ hyberbolic\ tangent\}$}
 \item{2000 iterations}
 \end{itemize}
 
@@ -200,7 +200,7 @@ Given the evaluation graphs we can conclude that the \emph{sigmoid} activation f
 \end{figure}
 
 
-The \emph{linear rectifier} activation function usually produces very bad results, except if the learning rate is 0.1 and the weights are initialized randomly where it almost reaches $MSE = 0$ (see Figure \ref{fig:best_result_linrect_mse}). After around 400 iterations the neural network classifies all inputs correctly (with the linear rectifier activation function).
+The \emph{linear rectifier (relu)} activation function usually produces very bad results, except if the learning rate is 0.1 and the weights are initialized randomly where it almost reaches $MSE = 0$ (see Figure \ref{fig:best_result_linrect_mse}). After around 400 iterations the neural network classifies all inputs correctly (with the linear rectifier activation function).
 
 \begin{figure}[H]
 	\centering
