@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{csvsimple}
+\usepackage{float}
+\makeatletter
+\newcommand\urlfootnote@[1]{\footnote{\url@{#1}}}
+\DeclareRobustCommand{\urlfootnote}{\hyper@normalise\urlfootnote@}
+\makeatother
+
+\begin{document}
+\title{Neural Networks Assignment 2}
+\author{Group 35}
+\maketitle
+\lstset{
+  basicstyle=\ttfamily,
+  keywordstyle=\bfseries,
+  language=Java,
+  frame=single,
+  aboveskip=11pt,
+  belowskip=11pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  showspaces=false,
+  showstringspaces=false,
+  numbers=left,
+  stepnumber=1,    
+  firstnumber=1,
+  numberfirstline=true
+}
+
+\section{Introduction}
+This Assignment is focused on getting familiar with the neural networks library \textit{Keras}\footnote{https://keras.io/ ; Visited 04.04.2018} written for \textit{python}\footnote{https://python.org/ ; Visited 04.04.2018}.
+Section \ref{sec:mnist} focusses on using two different methods (MLP \& CNN) to classify handwritten digits taken from the MNIST-Dataset\footnote{http://yann.lecun.com/exdb/mnist/ ; Visited 04.04.2018}, asked for in the first part of assignment 2\footnote{See Slide 8 of "DeepLearning on GPUs.pdf"}.
+Section \ref{sec:seq} is about natural language processing or the processing of arbitrary sequences / sentences,  required from the second part of assignment 2\footnote{See Slide 23 of "RecurrentNNs.pdf"}. This is done using LSTM's and GRU's instead of plain Recurrent Neural Networks (RNN's)
+Section \ref{sec:rnn} then uses plain RNN's to see if based on pure sequence / string input it is possible to teach a neural network to do basic calculations like addition and multiplication.
+
+\section{MNIST-Classification with Keras}
+\label{sec:mnist}
+This section is about the classification of handwritten digits using the MNIST-Dataset.
+For this we used the exisiting \textit{keras}-example code called \textit{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \textit{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}. We then added code to get the Mean Squared Error (MSE) and looked at the digits that we're most often misclassified.
+\subsection{Using MLP}
+\subsection{Using CNN}
+
+\section{Processing Sequences using LSTM's and GRU's}
+\label{sec:seq}
+This section deals with using LSTM's and GRU's for natural language processing.
+It is split up into two parts one dealing with the generation of text (Section \ref{sec:gen}) based on the learned data and the one that handles the translation of text (Section \ref{sec:trans})
+\subsection{Generating Text}
+\label{sec:gen}
+The text generation is based on the \textit{keras}-example code called \textit{lstm\_text\_generation.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py} ; Visited 04.04.2018}.
+In order to evaluate the generation we run the following experiments
+\begin{itemize}
+\item{Run the example-script as is}
+\item{Run the example with different text input}
+\item{Run the example with different text input and adjusted parameters to the LSTM}
+\item{Run the example with different text input and use a GRU instead of LSTM}
+\end{itemize}
+
+Also the standard script uses a sequence length of 40 characters. We found that a little short. In order to find a good length we looked up the average sentence length in the english language which is supposed to be 15-20\footnote{\url{http://countwordsworth.com/blog/what-is-a-good-average-sentence-length/} ; Visited 04.04.2018}.
+Also the average word length is approximately 5 characters\footnote{\url{https://www.quora.com/Whats-the-average-length-of-English-words} ; Visited 04.04.2018}. Combining that results in 100 charadcters per sentence ($20 * 5$). We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
+TODO: abschnitt long term dependencies. france beispiel erwähnen
+
+\subsection{Translating Text}
+\label{sec:trans}
+\begin{itemize}
+\item{Run the example-script as is with french to english translatoin}
+\item{Run the example with NL-ENG input}
+\item{Run the example with NL-ENG input and adjusted parameters to the LSTM}
+\item{Run the example with NL-ENG input and use a GRU instead of LSTM}
+\end{itemize}
+
+\section{Learning to calculate from Sequences using RNN}
+\label{sec:rnn}
+
+
+
+
+
+\end{document}
