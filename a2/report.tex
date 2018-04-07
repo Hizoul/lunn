@@ -44,10 +44,10 @@ This section is about the classification of handwritten digits using the MNIST-D
 For this we used the exisiting \textit{keras}-example code called \textit{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \textit{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}. We then modified the code to use the \emph{Mean Squared Error} (MSE) function to calculate the error.
 After that we took a look at the most misclassified values.
 We decided to define the most misclassified values by two ways:
-\begin{enumarate}
+\begin{itemize}
 	\item We count the times a digit was misclassified and then calculate a percentage.
 	\item We sum the sureness of the net for every class. The classes with the lowest sureness are the most misclassified values.
-\end{enumarate} 
+\end{itemize}
 \subsection{Using MLP}
 
 
@@ -71,7 +71,14 @@ In order to evaluate the generation we run the following experiments
 \end{itemize}
 
 Also the standard script uses a sequence length of 40 characters. We found that a little short. In order to find a good length we looked up the average sentence length in the english language which is supposed to be 15-20\footnote{\url{http://countwordsworth.com/blog/what-is-a-good-average-sentence-length/} ; Visited 04.04.2018}.
-Also the average word length is approximately 5 characters\footnote{\url{https://www.quora.com/Whats-the-average-length-of-English-words} ; Visited 04.04.2018}. Combining that results in 100 charadcters per sentence ($20 * 5$). We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
+Also the average word length is approximately 5 characters\footnote{\url{https://www.quora.com/Whats-the-average-length-of-English-words} ; Visited 04.04.2018}. Combining that results in 100 characters per sentence ($20 * 5$). We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
+
+Running the vanilla example script generates very noisy text with a lot of new lines where they are not supposed to be. That is why we decied to write a cleaner for the custom text.
+
+We chose to use all bands of harry potter which are available as txt files on archive.org.
+It does contain "noise" in the sense of page numbers, titles which were misread due to ocr etc. We filtered this out with a script.
+We also had a few problems with the script aborting due to non-ascii characters being contained in the text, hence we had to drop even more content from the file to work properly.
+
 TODO: abschnitt long term dependencies. france beispiel erwähnen
 
 \subsection{Translating Text}
@@ -85,6 +92,13 @@ TODO: abschnitt long term dependencies. france beispiel erwähnen
 
 \section{Learning to calculate from Sequences using RNN}
 \label{sec:rnn}
+
+
+The provided example script tries to teach a RNN to do simple additions by solely providing sequence to sequence string data.
+We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
+We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
+
+
 
 
 
