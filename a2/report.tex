@@ -33,7 +33,7 @@
 }
 
 \section{Introduction}
-This Assignment is focused on getting familiar with the neural networks library \textit{Keras}\footnote{https://keras.io/ ; Visited 04.04.2018} written for \textit{python}\footnote{https://python.org/ ; Visited 04.04.2018}.
+This assignment is focused on getting familiar with the neural networks library \textit{Keras}\footnote{https://keras.io/ ; Visited 04.04.2018} written for \textit{python}\footnote{https://python.org/ ; Visited 04.04.2018}.
 Section \ref{sec:mnist} focusses on using two different methods (MLP \& CNN) to classify handwritten digits taken from the MNIST-Dataset\footnote{http://yann.lecun.com/exdb/mnist/ ; Visited 04.04.2018}, asked for in the first part of assignment 2\footnote{See Slide 8 of "DeepLearning on GPUs.pdf"}.
 Section \ref{sec:seq} is about natural language processing or the processing of arbitrary sequences / sentences,  required from the second part of assignment 2\footnote{See Slide 23 of "RecurrentNNs.pdf"}. This is done using LSTM's and GRU's instead of plain Recurrent Neural Networks (RNN's)
 Section \ref{sec:rnn} then uses plain RNN's to see if based on pure sequence / string input it is possible to teach a neural network to do basic calculations like addition and multiplication.
@@ -41,9 +41,19 @@ Section \ref{sec:rnn} then uses plain RNN's to see if based on pure sequence / s
 \section{MNIST-Classification with Keras}
 \label{sec:mnist}
 This section is about the classification of handwritten digits using the MNIST-Dataset.
-For this we used the exisiting \textit{keras}-example code called \textit{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \textit{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}. We then added code to get the Mean Squared Error (MSE) and looked at the digits that we're most often misclassified.
+For this we used the exisiting \textit{keras}-example code called \textit{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \textit{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}. We then modified the code to use the \emph{Mean Squared Error} (MSE) function to calculate the error.
+After that we took a look at the most misclassified values.
+We decided to define the most misclassified values by two ways:
+\begin{enumarate}
+	\item We count the times a digit was misclassified and then calculate a percentage.
+	\item We sum the sureness of the net for every class. The classes with the lowest sureness are the most misclassified values.
+\end{enumarate} 
 \subsection{Using MLP}
+
+
 \subsection{Using CNN}
+
+
 
 \section{Processing Sequences using LSTM's and GRU's}
 \label{sec:seq}
