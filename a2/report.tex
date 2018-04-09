@@ -70,6 +70,10 @@ In order to evaluate the generation we run the following experiments
 \item{Run the example with different text input and use a GRU instead of LSTM}
 \end{itemize}
 
+
+TODO: mention sliding window
+
+
 Also the standard script uses a sequence length of 40 characters. We found that a little short. In order to find a good length we looked up the average sentence length in the english language which is supposed to be 15-20\footnote{\url{http://countwordsworth.com/blog/what-is-a-good-average-sentence-length/} ; Visited 04.04.2018}.
 Also the average word length is approximately 5 characters\footnote{\url{https://www.quora.com/Whats-the-average-length-of-English-words} ; Visited 04.04.2018}. Combining that results in 100 characters per sentence ($20 * 5$). We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
 
