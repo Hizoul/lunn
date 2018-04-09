@@ -39,21 +39,101 @@ Section \ref{sec:seq} is about natural language processing or the processing of 
 Section \ref{sec:rnn} then uses plain RNN's to see if based on pure sequence / string input it is possible to teach a neural network to do basic calculations like addition and multiplication.
 
 \section{MNIST-Classification with Keras}
+\label{task-1}
+%xxxxxxxxxx – get them running
+% xxxxxxxxx – print top 3 “most misclassified” digits
+% xxxxxxxx – how do you define “most misclassified”? 
+% xxxxxxxx change the error function to MSE and rerun your experiments
+%– to which extent are your results reproducible? In other words:
+%what is the impact of “non-controllable” randomness?
+%xxxxxxxxx apply mnist_mlp.py and mnist_cnn.py to a “randomly permutedversion” of the mnist dataset (pixels of all images permuted with help of a fixed random permutation of their indices)
+
+
 \label{sec:mnist}
 This section is about the classification of handwritten digits using the MNIST-Dataset.
-For this we used the exisiting \textit{keras}-example code called \textit{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \textit{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}. We then modified the code to use the \emph{Mean Squared Error} (MSE) function to calculate the error.
-After that we took a look at the most misclassified values.
-We decided to define the most misclassified values by two ways:
-\begin{itemize}
-	\item We count the times a digit was misclassified and then calculate a percentage.
-	\item We sum the sureness of the net for every class. The classes with the lowest sureness are the most misclassified values.
-\end{itemize}
-\subsection{Using MLP}
+For this we used the existing \textit{keras}-example code called \texttt{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \texttt{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}. 
+The existing code uses the \textit{cross-entropy error} function.
+
+In order to see the impact of the error function we repeated the experiment using the \textit{mean-squared error} function.
+
+We also wanted to test out what happens if we permutate both the training and test samples.
+For each experiment we output the three most misclassified digits.
+We define \textit{most misclassified} as follows: The samples where the probability of the $y_{true}$ label was the lowest.
+
+\subsection{Evaluation}
+
+In table \ref{table-1} you can see the amount of misclassified samples per experiment.
+It is evident, that CNN outperforms the MLP.
+Only with permuted data it has troubles.
+The reason for that was explained in the section \ref{task-1}.
+Both networks perform best with the cross-entropy error function.
+The mean-squared error only slightly worsens the results of the MLP.
+The CNN however, performs much worse using cross-entropy.
+
+\begin{table}[]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		& \cellcolor[HTML]{C0C0C0}CEE & \cellcolor[HTML]{C0C0C0}CEE-P & \cellcolor[HTML]{C0C0C0}MSE & \cellcolor[HTML]{C0C0C0}MSE-P \\ \hline
+		\cellcolor[HTML]{C0C0C0}MLP & \cellcolor[HTML]{FFFFFF}166 & 178                           & 169                         & 189                           \\ \hline
+		\cellcolor[HTML]{C0C0C0}CNN & 77                          & 123                           & 149                         & 221                           \\ \hline
+	\end{tabular}
+	\caption{Amount of misclassified samples. CEE = cross-entropy error; MSE = mean-squared error, P = permutated sample}
+	\label{table-1}
+\end{table}
+
+Looking at figure \ref{fig:cnn} we can that the few misclassifications mostly seem to revolve around hardly digits.
+The 9 is too thin, the 1 is barely visible and the 8 is too thin, too little and contains a noisy line.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/cnn_categorial_cross_non_perm.png}
+	\caption{Top three most misclassified digits with the CNN-CEE net}
+	\label{fig:cnn}
+\end{figure}
 
 
-\subsection{Using CNN}
+The three most misclassified digits of the MLP, shown in figure \ref{fig:mlp}, stand in stark contrast to that.
+The left and the right sample seem to be very clearly identifiable.
+One problem might be the thickness given that both samples are quite thick.
+The third is easily identifiable by a human, but is very thin compared to the others, which probably is the reason why it was misclassified.
+Of course other reasons could have led to this result as well.
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/mpl_categorial_cross_non_perm.png}
+	\caption{Top three most misclassified digits with the MLP-CEE net}
+	\label{fig:mlp}
+\end{figure}
+
+
+The convulationen is more affected that the MLP by permutation.
+This is explainable by way of how a convulitional filter is working.
+It looks at neighbouring pixels and summarizes them into a new value.
+Of course a random permutation will influence these sums in an unpredictable way.
+This results in a most grey filtered image, which is much harder to classify.
+This doesn't apply to MLP, because every pixel considered without any modification.
+
+
+\subsection{Randomness impact}
+To determine the possible impact of randomness upon accuracy of the recognition we run same tests again.
+Keras offers various weight initiliazers, these initial weights influence the training process and the final result.
+This can be seen, if we compare table \ref{table-1} to table \ref{table-2}.
+However, the margin between the misclassified samples seems negligible.
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		& \cellcolor[HTML]{C0C0C0}CEE & \cellcolor[HTML]{C0C0C0}CEE-P & \cellcolor[HTML]{C0C0C0}MSE & \cellcolor[HTML]{C0C0C0}MSE-P \\ \hline
+		\cellcolor[HTML]{C0C0C0}MLP & \cellcolor[HTML]{FFFFFF}154 & 160                           & 169                         & 174                           \\ \hline
+		\cellcolor[HTML]{C0C0C0}CNN & 88                          & 128                           & 147                         & 216                           \\ \hline
+	\end{tabular}
+	\caption{Amount of misclassified samples. CEE = cross-entropy error; MSE = mean-squared error, P = permutated sample}
+	\label{table-2}
+\end{table}
 
 \section{Processing Sequences using LSTM's and GRU's}
 \label{sec:seq}
