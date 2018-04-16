@@ -263,7 +263,6 @@ We are not able to identify why the increased text corpus size did not improve t
 But still, the produced text contains at least some valid English words.
 Increasing the diversity here only leads to more gibberish sentences or even no valid words at all.
 
-% GRU is supposed to yield to similar results as the LSTM, we found that to be true
 % Harry mit Gru
 Because of the disappointing results of the LSTM, we replaced it with a GRU.
 The GRU is a bit simpler than the LSTM, but should yield similar results \footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}.
@@ -297,26 +296,77 @@ In order to evaluate the translation we run the following experiments
 
 \subsection{Results}
 We validate the translation for correctness by comparing the expectation with the prediction.
-We also check against the full dataset.
 Source sentences can occur multiple times, hence for these we check if one of the possible translation matches.
 
 % TODO: Fra -> Eng
 
-
 % English -> Dutch
+The English to Dutch translation is not very effective.
+Only 1705 of 10,000 sentences are translated correctly.
 
 
-%s2snl_main Results
-%Got 3 out of selected 16
-%Got 1318 out of 10000
 
-
-\section{Learning to calculate from Sequences using RNN}
+\section{Addition and Multiplication}
 \label{sec:rnn}
+Our goal for this section is to train \emph{Recurrent Neural Networks} (RNNs) to do additions and multiplications by solely providing string sequences as data.
 
-The original example script \textit{addition\_rnn.py}\cite{kerasexamples} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
-We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
-We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
+\subsection{Script}
+The experiments are based on the Keras example script \textit{addition\_rnn.py}\cite{kerasexamples}.
+The script generates 50,000 additions with solutions.
+There is an question and an expectation array.
+The questions are saved as string that look like the following:
+$023+123$.
+As you can short numbers are padded with zeros in front.
+The save holds true for the expectation.
+
+After generating the samples get vectorized just like the data in section \ref{sec:seq}.
+
+
+% TODO
+The sequential model consists of two LSTM layers.
+The first LSTM layer works as encoder which soutputs HIDDEN\_SIZE values.
+The second LSTM layer works as decoder and returns all outputs so far.
+Then a TimeDistributed layer is applied to densify every slice of the input from the encoder.
+
+\subsection{Experiments}
+
+\begin{enumerate}
+	\item{Run the example-script as is}
+	\item{Run the example-script using varying RNNs types and layer amounts for multiplication}
+\end{enumerate}
+
+For the multiplication we generated 270,000 training samples that look like the addition samples.
+We also generate at test set of 1,000 samples, that are not included in the training set.
+For this, the result digit amount has to be increased in order to accommodate the new highest possible result ($999*999=998001$).
+Because the multiplication is more complex than the addition, we decided to try out different types of RNNs, namely LSTMs and GRUs.
+We also experiment with using five decoding layers instead of just one.
+During the training we saved the model after every iteration to be able to evaluate the performance of the model over time.
+
+\subsection{Results}
+The addition script claims to have a accuracy of 99\% on a training set of 50,000 samples.
+We ran the script and already after 42 iterations the accuracy reached 100\%.
+% TODO After testing the model with test samples, we achived a accuracy of X\%
+Because the results are already almost perfect we decided not to run further experiments.
+
+
+%multiply
+For the multiplication the results can be seen in figure \ref{fig:multiply}.
+The accuracy of the different nets are plotted at every iteration.
+It is evident, that the additional decode layers have worsened the accuracy.
+In addition, the runtime was much higher.
+Thats why we decided to stop the learning process of the net, with the 5 LSTM decode layers at 77 iterations.
+But nevertheless, the best accuracy is already reached after 20 to 30 iterations.
+Surprisingly the one decode layer nets turn out to be better.
+The GRU and the LSTM are competing quite closing, but the very best accuracy is reached by the LSTM at around 80 iteration.
+The GRU also shows an interesting disadvantage in the graph: at some iterations accuracy drastically drops, but yet it always recovers.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{img/multiply}
+\caption{Evaluating multiplication accuracy on the test set using varying nets}
+\label{fig:multiply}
+\end{figure}
+
 
 \appendix
 \section{Text Generation}
