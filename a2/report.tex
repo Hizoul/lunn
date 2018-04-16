@@ -35,14 +35,13 @@
 }
 
 \section{Introduction}
-This report discusses our results for the second assignment for the Neural Network
-course, given in spring 2018 at LIACS.
-The main purpose of this assignment is to getting familiar with the neural networks library \textit{Keras}\footnote{https://keras.io/ ; Visited 04.04.2018} written for \textit{python}\footnote{https://python.org/ ; Visited 04.04.2018}.
+This report discusses our results for the second assignment for the Neural Network course, given in spring 2018 at LIACS.
+The main purpose of this assignment is to get familiar with the neural networks library \textit{Keras}\cite{chollet2015keras} written for \textit{python}\cite{van2011python}.
 
-Section \ref{sec:mnist} focuses on using two different methods, namely \emph{Multilayer perceptron} (MLP) and \emph{Convolutional Neural Network} (CNN), to classify handwritten digits taken from the famous MNIST-Dataset\footnote{http://yann.lecun.com/exdb/mnist/ ; Visited 04.04.2018}.
+Section \ref{sec:mnist} focuses on using two different methods, namely \emph{Multilayer perceptron} (MLP) and \emph{Convolutional Neural Network} (CNN), to classify handwritten digits taken from the well known MNIST-Dataset\cite{mnist}.
 
 %TODO
-Section \ref{sec:seq} is about natural language processing or the processing of arbitrary sequences / sentences,  required from the second part of assignment 2\footnote{See Slide 23 of "RecurrentNNs.pdf"}. This is done using LSTM's and GRU's instead of plain Recurrent Neural Networks (RNN's)
+Section \ref{sec:seq} and \ref{sec:trans} are about natural language processing or the processing of arbitrary sequences / sentences. This is done using LSTM's and GRU's instead of plain Recurrent Neural Networks (RNN's)
 Section \ref{sec:rnn} then uses plain RNN's to see if based on pure sequence / string input it is possible to teach a neural network to do basic calculations like addition and multiplication.
 
 \section{MNIST-Classification with Keras}
@@ -55,7 +54,7 @@ Section \ref{sec:rnn} then uses plain RNN's to see if based on pure sequence / s
 %xxxxxxxxx apply mnist_mlp.py and mnist_cnn.py to a “randomly permutedversion” of the mnist dataset (pixels of all images permuted with help of a fixed random permutation of their indices)
 \label{sec:mnist}
 This section is about the classification of handwritten digits using the MNIST-Dataset.
-For this we used existing \textit{Keras}-example codes called \textit{mnist\_mlp.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py} ; Visited 04.04.2018} and \textit{mnist\_cnn.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py} ; Visited 04.04.2018}.
+For this we used the existing \textit{Keras}\cite{chollet2015keras}-examples called \textit{mnist\_mlp.py}\cite{kerasexamples} and \textit{mnist\_cnn.py}\cite{kerasexamples}.
 In section \ref{example-scripts} we describe the model of these two scripts.
 
 
@@ -65,9 +64,9 @@ We define \textit{most misclassified} as follows: The samples where the probabil
 After that we want to determine the impact of the used error function of these two nets.
 Both the examples are using the \emph{categorical cross entropy} (CEE) error function.
 In order to see how the performance of the nets change we repeated the experiments while using the \emph{mean squared error} function.
-The findings are described in Section \ref{evaluation}
+The findings are described in Section \ref{evaluation}.
 
-For discovering possible weaknesses of the MLP, we permuted both the training and the test samples using a fixed permutation matrix.
+To discover possible weaknesses of the MLP, we permuted both the training and the test samples using a fixed permutation matrix.
 After that we run the same experiment again with the CNN and described the results in Section \ref{evaluation}.
 
 
@@ -201,7 +200,7 @@ The margin between the misclassified samples seems negligible.
 \label{sec:seq}
 This section deals with using  \emph{Long short-term memory} (LSTM) networks for natural language processing.
 It presents the generation of text (section \ref{sec:gen}) based on the learned data.
-The text generation is based on the \textit{Keras}-example called \textit{lstm\_text\_generation.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py} ; Visited 04.04.2018}.
+The text generation is based on the \textit{Keras}-example called \textit{lstm\_text\_generation.py}\cite{kerasexamples}.
 
 
 \subsection{Script}
@@ -240,19 +239,10 @@ This should improve the results, given that less non fitting characters can be p
 In addition we increased the sentence length to 100 instead of 40.
 We set the $step\_size$ from 3 to 6.
 We decided to adjust these parameters, because 40 characters seem to be too short.
-In order to find a good length we looked up the average sentence length in the English language which is supposed to be 15-20 words\footnote{\url{http://countwordsworth.com/blog/what-is-a-good-average-sentence-length/} ; Visited 04.04.2018}.
-Also the average word length is approximately 5 characters\footnote{@article{shannon1951prediction,
-title={Prediction and entropy of printed English},
-author={Shannon, Claude E},
-journal={Bell Labs Technical Journal},
-volume={30},
-number={1},
-pages={50--64},
-year={1951},
-publisher={Wiley Online Library}
-}}.
+In order to find a good length we looked up the average sentence length in the English language which is supposed to be 15-20 words\cite{cutts2013oxford}.
+Also the average word length is approximately 5 characters\cite{shannon1951prediction}.
 Combining that results in 100 characters per sentence ($20 * 5$).
-We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
+We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\cite{sundermeyer2013comparison}.
 
 
 
@@ -284,7 +274,7 @@ From a subjective viewpoint, it seems to us, that  the GRU has slightly better r
 \section{Text Translation}
 \label{sec:trans}
 In this section we want to focus on the translation of strings from a source to a target language.
-For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq} \footnote{TODO}.
+For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq} \cite{kerasexamples}.
 
 \subsection{Script}
 It reads in a text file in which every line represents a translation.
@@ -324,7 +314,7 @@ Source sentences can occur multiple times, hence for these we check if one of th
 \section{Learning to calculate from Sequences using RNN}
 \label{sec:rnn}
 
-The original example script \textit{addition\_rnn.py}\footnote{\url{https://raw.githubusercontent.com/keras-team/keras/master/examples/addition_rnn.py}; Visited on 16.04.2018} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
+The original example script \textit{addition\_rnn.py}\cite{kerasexamples} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
 We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
 We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
 
@@ -348,5 +338,10 @@ b a t ood the t   the cyctean the l they fot s the and fun w  and and the thu mb
 his last, comforting thought before he fell asleep was that even if the potters were involved, there
 a   af he ain alual thereery he  is aid ash her her h d h the led the he an si  he  as ae a  es of sthe w there ae t  the h as eher the alo ha i as a t he wating of hin  sac o ly e agurene thethe an thuerere theauther the he  harerer the ase hef ther her as the hanou the ther the the at  ithe  the to  erer and as erer there a w ase a her d e thathery the asi he a s thet whe ene se an  s  o he h he
 \end{lstlisting}
+
+
+\bibliography{report} 
+\bibliographystyle{ieeetr}
+
 
 \end{document}
