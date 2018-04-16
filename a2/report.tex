@@ -197,9 +197,9 @@ The margin between the misclassified samples seems negligible.
 	\label{table-2}
 \end{table}
 
-\section{Processing Sequences using LSTM's and GRU's}
+\section{Sequence Processing}
 \label{sec:seq}
-This section deals with using LSTM's and GRU's for natural language processing.
+This section deals with using  (LSTM) and GRU's for natural language processing.
 It is split up into two parts one dealing with the generation of text (section \ref{sec:gen}) based on the learned data and the one that handles the translation of text (Section \ref{sec:trans})
 \subsection{Generating Text}
 \label{sec:gen}
@@ -233,14 +233,13 @@ TODO: abschnitt long term dependencies. france beispiel erwähnen
 \item{Run the example-script as is with french to english translatoin}
 \item{Run the example with NL-ENG input}
 \item{Run the example with NL-ENG input and adjusted parameters to the LSTM}
-\item{Run the example with NL-ENG input and use a GRU instead of LSTM}
 \end{itemize}
 
 \section{Learning to calculate from Sequences using RNN}
 \label{sec:rnn}
 
 
-The original example script \textit{addition_rnn.py}\footnote{\url{https://raw.githubusercontent.com/keras-team/keras/master/examples/addition_rnn.py}; Visited on 16.04.2018} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
+The original example script \textit{addition\_rnn.py}\footnote{\url{https://raw.githubusercontent.com/keras-team/keras/master/examples/addition_rnn.py}; Visited on 16.04.2018} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
 We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
 We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
 
