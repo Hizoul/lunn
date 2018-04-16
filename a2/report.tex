@@ -36,7 +36,7 @@
 
 \section{Introduction}
 This report discusses our results for the second assignment for the Neural Network
-course, given in spring 2018 at LIACS1.
+course, given in spring 2018 at LIACS.
 The main purpose of this assignment is to getting familiar with the neural networks library \textit{Keras}\footnote{https://keras.io/ ; Visited 04.04.2018} written for \textit{python}\footnote{https://python.org/ ; Visited 04.04.2018}.
 
 Section \ref{sec:mnist} focuses on using two different methods, namely \emph{Multilayer perceptron} (MLP) and \emph{Convolutional Neural Network} (CNN), to classify handwritten digits taken from the famous MNIST-Dataset\footnote{http://yann.lecun.com/exdb/mnist/ ; Visited 04.04.2018}.
@@ -59,11 +59,11 @@ For this we used existing \textit{Keras}-example codes called \textit{mnist\_mlp
 In section \ref{example-scripts} we describe the model of these two scripts.
 
 
-First we want to take a look at three \emph{most misclassified digits}, see Section \ref{most-misclassified-digits}.
+First we want to take a look at the three \emph{most misclassified digits}, see Section \ref{most-misclassified-digits}.
 We define \textit{most misclassified} as follows: The samples where the probability of the $y_{true}$ label was the lowest.
 
 After that we want to determine the impact of the used error function of these two nets.
-Both the examples are using the \emph{categorical cross entropy} error function.
+Both the examples are using the \emph{categorical cross entropy} (CEE) error function.
 In order to see how the performance of the nets change we repeated the experiments while using the \emph{mean squared error} function.
 The findings are described in Section \ref{evaluation}
 
