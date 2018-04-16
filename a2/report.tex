@@ -197,56 +197,156 @@ The margin between the misclassified samples seems negligible.
 	\label{table-2}
 \end{table}
 
-\section{Sequence Processing}
+\section{Text Generation}
 \label{sec:seq}
-This section deals with using  (LSTM) and GRU's for natural language processing.
-It is split up into two parts one dealing with the generation of text (section \ref{sec:gen}) based on the learned data and the one that handles the translation of text (Section \ref{sec:trans})
-\subsection{Generating Text}
-\label{sec:gen}
-The text generation is based on the \textit{keras}-example code called \textit{lstm\_text\_generation.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py} ; Visited 04.04.2018}.
+This section deals with using  \emph{Long short-term memory} (LSTM) networks for natural language processing.
+It presents the generation of text (section \ref{sec:gen}) based on the learned data.
+The text generation is based on the \textit{Keras}-example called \textit{lstm\_text\_generation.py}\footnote{\url{https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py} ; Visited 04.04.2018}.
+
+
+\subsection{Script}
+In this script a Nietzsche writing is used, the text is read and all $distinct\_characters$ are collected and enumerated.
+After that the text is split up into \enquote{sentences}.
+Sentences is in quotes, because the script uses the \emph{sliding window} technique.
+This means we have a window of $window\_size$ characters, this window will be moved in every iteration by $step\_size$ characters.
+This results in cut off words, but improves the contextualization between the sentences.
+To feed the sentences to the network they are vectorized into a boolean representation.
+The encoded data looks has the following shape:  $x=(sentence\_count, distinct\_character\_count)$ and for $y=(sentence\_count, sentence\_length, distinct\_character\_count)$.
+
+This data is then fed to the model shown in Listing \ref{textgen}.
+At the end of every epoch, it generates text based on a random text window of the original input text.
+Using this \enquote{seed} it will predict character by character.
+This happens with a varying degree of diversity.
+This means not using the most probable next character, but varying and hence enabling less probable characters to be used, if diversity increases.
+According to the author of the script, after 20 epochs text should start to sound coherent.
+It also states, that increasing the size of the trained text should improve results.
+
+\subsection{Experiments}
 In order to evaluate the generation we run the following experiments
-\begin{itemize}
+\begin{enumerate}
 \item{Run the example-script as is}
+\item{Run the example-script as is with increased sliding window size}
 \item{Run the example with different text input}
-\item{Run the example with different text input and adjusted parameters to the LSTM}
 \item{Run the example with different text input and use a GRU instead of LSTM}
-\end{itemize}
+\end{enumerate}
+
+Our different text input are all books from Harry Potter combined.
+The found book text was quite noisy, so we decided to clean it via a script.
+We removed several orthography related characters and new lines.
+This resulted in a $distinct\_characters$ drop of 37.
+To compare, Nietzsche's text contains 52.
+This should improve the results, given that less non fitting characters can be predicted.
+
+In addition we increased the sentence length to 100 instead of 40.
+We set the $step\_size$ from 3 to 6.
+We decided to adjust these parameters, because 40 characters seem to be too short.
+In order to find a good length we looked up the average sentence length in the English language which is supposed to be 15-20 words\footnote{\url{http://countwordsworth.com/blog/what-is-a-good-average-sentence-length/} ; Visited 04.04.2018}.
+Also the average word length is approximately 5 characters\footnote{@article{shannon1951prediction,
+title={Prediction and entropy of printed English},
+author={Shannon, Claude E},
+journal={Bell Labs Technical Journal},
+volume={30},
+number={1},
+pages={50--64},
+year={1951},
+publisher={Wiley Online Library}
+}}.
+Combining that results in 100 characters per sentence ($20 * 5$).
+We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
 
 
-TODO: mention sliding window
 
+\subsection{Results}
+% Nietzsche TODO
+The script as is generates somewhat valid English words after 60 epochs of learning with a low diversity, see listing \ref{nietzsche-low-diverse}.
 
-Also the standard script uses a sequence length of 40 characters. We found that a little short. In order to find a good length we looked up the average sentence length in the english language which is supposed to be 15-20\footnote{\url{http://countwordsworth.com/blog/what-is-a-good-average-sentence-length/} ; Visited 04.04.2018}.
-Also the average word length is approximately 5 characters\footnote{\url{https://www.quora.com/Whats-the-average-length-of-English-words} ; Visited 04.04.2018}. Combining that results in 100 characters per sentence ($20 * 5$). We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}; Visited 04.04.2018}.
+When comparing the results of the vanilla script,  with the ones of the adjusted script, see listing \ref{nietzsche-low-diverse-increased}, we can see that increasing the sliding window length does not seem to negatively affect the validity of the generated text. (TODO: schauen obs sogar besser geworden ist)
 
-Running the vanilla example script generates very noisy text with a lot of new lines where they are not supposed to be. That is why we decied to write a cleaner for the custom text.
+However, the produced words only makes sense individually.
+They do not create meaningful sentences.
+When increasing the diversity the results are getting worse and worse.
 
-We chose to use all bands of harry potter which are available as txt files on archive.org.
-It does contain "noise" in the sense of page numbers, titles which were misread due to ocr etc. We filtered this out with a script.
-We also had a few problems with the script aborting due to non-ascii characters being contained in the text, hence we had to drop even more content from the file to work properly.
+% Harry Potter Vanilla (sliding window angepasst)
+Generated text with low diversity based on the Harry Potter dataset can be found in listing \ref{harry-all-low-diverse}.
+The results are very disappointing, given that the training text is much bigger and even cleaned.
+We are not able to identify why the increased text corpus size did not improve the results.
+But still, the produced text contains at least some valid English words.
+Increasing the diversity here only leads to more gibberish sentences or even no valid words at all.
 
-TODO: abschnitt long term dependencies. france beispiel erwähnen
+% GRU is supposed to yield to similar results as the LSTM, we found that to be true
+% Harry mit Gru
+Because of the disappointing results of the LSTM, we replaced it with a GRU.
+The GRU is a bit simpler than the LSTM, but should yield similar results \footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}.
+But again it produces largely garbage.
+You can find produced text in the listing \ref{evaluation}.
+From a subjective viewpoint, it seems to us, that  the GRU has slightly better results than the LSTM.
 
-\subsection{Translating Text}
+\section{Text Translation}
 \label{sec:trans}
-\begin{itemize}
-\item{Run the example-script as is with french to english translatoin}
-\item{Run the example with NL-ENG input}
-\item{Run the example with NL-ENG input and adjusted parameters to the LSTM}
-\end{itemize}
+In this section we want to focus on the translation of strings from a source to a target language.
+For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq} \footnote{TODO}.
+
+\subsection{Script}
+It reads in a text file in which every line represents a translation.
+The first part is the source language, delimited by a tab character indicating the start of the target language.
+The input gets processed in a similar way as the text generation script, see \ref{TODO}.
+One of the changes is, that the representation of the sentences is encoded with floats instead of booleans.
+
+The model consists of an encoder and a decoder model.
+Both are LSTMs and are combined into one model in order to train the net.
+
+In total the model trains for 100 epochs.
+
+\subsection{Experiments}
+In order to evaluate the translation we run the following experiments
+
+\begin{enumerate}
+	\item{Run the example-script as is}
+	\item{Run the example with English to Dutch translation}
+\end{enumerate}
+
+\subsection{Results}
+We validate the translation for correctness by comparing the expectation with the prediction.
+We also check against the full dataset.
+Source sentences can occur multiple times, hence for these we check if one of the possible translation matches.
+
+% TODO: Fra -> Eng
+
+
+% English -> Dutch
+
+
+%s2snl_main Results
+%Got 3 out of selected 16
+%Got 1318 out of 10000
+
 
 \section{Learning to calculate from Sequences using RNN}
 \label{sec:rnn}
-
 
 The original example script \textit{addition\_rnn.py}\footnote{\url{https://raw.githubusercontent.com/keras-team/keras/master/examples/addition_rnn.py}; Visited on 16.04.2018} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
 We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
 We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
 
+\appendix
+\section{Text Generation}
+\begin{lstlisting}[label=nietzsche-low-diverse, caption={Nietzsche after 60 epochs}]
+----- diversity: 0.2
+TODO
+\end{lstlisting}
 
+\begin{lstlisting}[label=lstm-harry-all-low-diverse, caption={LSTM Harry Potter after 60 epochs, diversity=0.2}]
+----- diversity: 0.2
+----- Generating with seed: "his last, comforting thought before he fell asleep was that even if the potters were involved, there"
+his last, comforting thought before he fell asleep was that even if the potters were involved, there
+b a t ood the t   the cyctean the l they fot s the and fun w  and and the thu mbled we wh   the orn had back and of t wever me wan the the d evon thoug be t out the abrtu whand the shou harry the the breger po i o  v a anow  ht wan the to has the duull tall war of the habe was be ad  w of his rr t h omn r t sh o t the to  blo th hupp l the the t to to te  s  t  o  thuw  has   t a t  tath harry
+\end{lstlisting}
 
-
-
-
+\begin{lstlisting}[label=gru-harry-all-low-diverse, caption={GRU Harry Potter after 60 epochs, diversity=0.2}]
+----- diversity: 0.2
+----- Generating with seed: "his last, comforting thought before he fell asleep was that even if the potters were involved, there"
+his last, comforting thought before he fell asleep was that even if the potters were involved, there
+a   af he ain alual thereery he  is aid ash her her h d h the led the he an si  he  as ae a  es of sthe w there ae t  the h as eher the alo ha i as a t he wating of hin  sac o ly e agurene thethe an thuerere theauther the he  harerer the ase hef ther her as the hanou the ther the the at  ithe  the to  erer and as erer there a w ase a her d e thathery the asi he a s thet whe ene se an  s  o he h he
+\end{lstlisting}
 
 \end{document}
