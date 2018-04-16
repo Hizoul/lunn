@@ -162,7 +162,7 @@ A convolutional filter \enquote{detects} features by looking at multiple informa
 By permutation the data, the feature recognition cannot work properly anymore, because it's important which pixels are next to each other.
 The permutation will affect the results of the filters in an unpredictable way.
 
-This problem doesn't occur with a plain MLP net, because every pixel considered individuality.
+This problem doesn't occur with a plain MLP net, because every pixel is considered individuality.
 As long as a pixel is moved to another place consistently over all images, it doesn't affect the behavior at all.
 
 
@@ -240,7 +240,7 @@ TODO: abschnitt long term dependencies. france beispiel erwähnen
 \label{sec:rnn}
 
 
-The provided example script tries to teach a RNN to do simple additions by solely providing sequence to sequence string data.
+The original example script \textit{addition_rnn.py}\footnote{\url{https://raw.githubusercontent.com/keras-team/keras/master/examples/addition_rnn.py}; Visited on 16.04.2018} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
 We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
 We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
 
