@@ -367,6 +367,28 @@ The GRU also shows an interesting disadvantage in the graph: at some iterations 
 \label{fig:multiply}
 \end{figure}
 
+\section{Autoencoder}
+\label{sec:autoencoder}
+In this section we want to take a look on \emph{Autoencoders}.
+For this purpose we encode MNIST digits to compress then.
+Afterwards we decode them again in order to see how good the autoencoder works.
+We also want to experiment with denoising images.
+For that we apply random noisy pixel onto the original samples and try to denoise the sample afterwards.
+
+The scripts are based on the \emph{The Keras Blog} entry \emph{Building Autoencoders in Keras}\footnote{https://blog.keras.io/building-autoencoders-in-keras.html}.
+
+\subsection{Experiments}
+
+\begin{enumerate}
+	\item{deep vs. modified deep autoencoder}
+	\item{convolutional vs. modified convolutional autoencoder}
+	\item{convolutional denoising vs modified convolutional denoising autoencoder}
+\end{enumerate}
+
+\subsection{Results}
+
+
+
 
 \appendix
 \section{Text Generation}
