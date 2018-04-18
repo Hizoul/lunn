@@ -379,24 +379,41 @@ The GRU also shows an interesting disadvantage in the graph: at some iterations 
 
 \section{Autoencoder}
 \label{sec:autoencoder}
-In this section we want to take a look on \emph{Autoencoders}.
+This section will give an introduction into the field of \emph{auto-encoders}.
+Traditionally encoding or compressing data uses a predefined algorithm than can encode and decode arbitrary data while still restoring all initially fed information fully.
+Auto-encoders stand in stark contrast to that because they do not guarantee lossless decoding, are dependent on the fed data and generate the \enquote{compression algorithm} themselves\cite{kerasautoencoders}.
+To underline their lossy nature we will show different autoencoder networks (section \ref{autoencoder-experiments}) and their result after an encode / decode run (section \ref{sec:autoencoder-results}).
+
+
 For this purpose we encode MNIST digits to compress then.
 Afterwards we decode them again in order to see how good the autoencoder works.
 We also want to experiment with denoising images.
-For that we apply random noisy pixel onto the original samples and try to denoise the sample afterwards.
-
-The scripts are based on the \emph{The Keras Blog} entry \emph{Building Autoencoders in Keras}\footnote{https://blog.keras.io/building-autoencoders-in-keras.html}.
 
 \subsection{Experiments}
-
+\label{sec:autoencoder-experiments}
+We will run the following auto-encoder applications
 \begin{enumerate}
-	\item{deep vs. modified deep autoencoder}
-	\item{convolutional vs. modified convolutional autoencoder}
-	\item{convolutional denoising vs modified convolutional denoising autoencoder}
+	\item{Deep Neural Network}
+	\item{Convolutional Neural Network}
+	\item{Denoising using a Convolutional Neural Network}
 \end{enumerate}
+For the noise example we apply random noisy pixel onto the original samples and try to denoise the sample afterwards.
+Each of the experiments will also be run with a modified version. The modified version will add another Layer and increase the compression. Hence we expect these images to be more blurry after decoding because even less information gets fed to the decoder.
+
+\subsection{Script}
+\label{sec:autoencoder-script}
+Our script for this is based on the \texttt{keras}\cite{keras} blog-entry about auto-encoders\cite{kerasautoencoders}.
+We implement the networks described in the  section \ref{sec:autoencoder-experiments}.
+The networks are split up into an encoder and a decoder model. 
+We then train the encoder and decoder on 60,000 digits of the MNIST\cite{mnist} dataset.
+After that we let each of them encode and decode the same 10 digits, and then draw three rows of digits.
+For the encode / decode experiments the first row containing the original, the second row the result of an encode / decode process and the third row displays a visualization of the pixel difference.
+For the noise experiments the first row contains the original, the second row the noisy image and the third row the denoised image.
+
+
 
 \subsection{Results}
-
+\label{sec:autoencoder-results}
 
 
 
