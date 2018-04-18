@@ -204,6 +204,7 @@ The text generation is based on the \textit{Keras}-example called \textit{lstm\_
 
 
 \subsection{Script}
+\label{textgen-script}
 In this script a Nietzsche writing is used, the text is read and all $distinct\_characters$ are collected and enumerated.
 After that the text is split up into \enquote{sentences}.
 Sentences is in quotes, because the script uses the \emph{sliding window} technique. %TODO: Referenz für Sliding Window
@@ -284,12 +285,12 @@ Sentences with a loss value above 2 already look like pure gibberish (example in
 \section{Text Translation}
 \label{sec:trans}
 In this section we want to focus on the translation of strings from a source to a target language.
-For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq} \cite{kerasexamples}.
+For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq.py} \cite{kerasexamples}.
 
 \subsection{Script}
-The script reads in a text file in which every line represents a translation.
+The script reads a text file in which every line represents a translation.
 The first part is the source language, delimited by a tab character indicating the start of the target language.
-The input gets processed in a similar way as the text generation script, see \ref{TODO}.
+The input gets processed in a similar way as the text generation script, see Section \ref{textgen-script}.
 One of the changes is, that the representation of the sentences is encoded with floats instead of booleans.
 
 The model consists of an encoder and a decoder model.
@@ -298,7 +299,7 @@ Both are LSTMs and are combined into one model in order to train the net.
 In total the model trains for 100 epochs.
 
 \subsection{Experiments}
-In order to evaluate the translation we run the following experiments
+In order to evaluate the translation we run the following experiments:
 
 \begin{enumerate}
 	\item{Run the example-script as is}
@@ -326,11 +327,11 @@ The experiments are based on the Keras example script \textit{addition\_rnn.py}\
 The script generates 50,000 additions with solutions.
 There is an question and an expectation array.
 The questions are saved as string that look like the following:
-$023+123$.
+\texttt{023+123}.
 As you can short numbers are padded with zeros in front.
-The save holds true for the expectation.
+The same holds true for the expectation.
 
-After generating the samples get vectorized just like the data in section \ref{sec:seq}.
+After generation, the samples get vectorized just like the data in section \ref{textgen-script}.
 
 
 % TODO
@@ -340,35 +341,33 @@ The second LSTM layer works as decoder and returns all outputs so far.
 Then a TimeDistributed layer is applied to densify every slice of the input from the encoder.
 
 \subsection{Experiments}
-
+For the evaluation we run two experiments:
 \begin{enumerate}
 	\item{Run the example-script as is}
 	\item{Run the example-script using varying RNNs types and layer amounts for multiplication}
 \end{enumerate}
 
 For the multiplication we generated 270,000 training samples that look like the addition samples.
-We also generate at test set of 1,000 samples, that are not included in the training set.
-For this, the result digit amount has to be increased in order to accommodate the new highest possible result ($999*999=998001$).
+We also generate a test set of 1,000 samples, that are not included in the training set.
 Because the multiplication is more complex than the addition, we decided to try out different types of RNNs, namely LSTMs and GRUs.
 We also experiment with using five decoding layers instead of just one.
 During the training we saved the model after every iteration to be able to evaluate the performance of the model over time.
 
 \subsection{Results}
-The addition script claims to have a accuracy of 99\% on a training set of 50,000 samples.
-We ran the script and already after 42 iterations the accuracy reached 100\%.
-% TODO After testing the model with test samples, we achived a accuracy of X\%
-Because the results are already almost perfect we decided not to run further experiments.
+The addition script claims to have an accuracy of 99\% on a training set of 50,000 samples.
+We ran the script and achieved full accuracy after just 42 iterations.
+Because the results are already almost perfect we decided not to run further experiments on the addition.
 
 
 %multiply
-For the multiplication the results can be seen in figure \ref{fig:multiply}.
+%TODO übergang besser machen
+For the multiplication the results can be seen in Figure \ref{fig:multiply}.
 The accuracy of the different nets are plotted at every iteration.
 It is evident, that the additional decode layers have worsened the accuracy.
 In addition, the runtime was much higher.
 Thats why we decided to stop the learning process of the net, with the 5 LSTM decode layers at 77 iterations.
-But nevertheless, the best accuracy is already reached after 20 to 30 iterations.
-Surprisingly the one decode layer nets turn out to be better.
-The GRU and the LSTM are competing quite closing, but the very best accuracy is reached by the LSTM at around 80 iteration.
+But nevertheless, the best accuracy for this net is already reached after 20 to 30 iterations.
+The one layer GRU and LSTM nets are competing quite close, but the very best accuracy is reached by the LSTM at around 80 iterations.
 The GRU also shows an interesting disadvantage in the graph: at some iterations accuracy drastically drops, but yet it always recovers.
 
 \begin{figure}[H]
