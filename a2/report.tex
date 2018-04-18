@@ -199,24 +199,25 @@ The margin between the misclassified samples seems negligible.
 \section{Text Generation}
 \label{sec:seq}
 This section deals with using  \emph{Long short-term memory} (LSTM) networks for natural language processing.
-It presents the generation of text (section \ref{sec:gen}) based on the learned data.
+It presents the generation of text based on the learned data.
 The text generation is based on the \textit{Keras}-example called \textit{lstm\_text\_generation.py}\cite{kerasexamples}.
 
 
 \subsection{Script}
+\label{textgen-script}
 In this script a Nietzsche writing is used, the text is read and all $distinct\_characters$ are collected and enumerated.
 After that the text is split up into \enquote{sentences}.
-Sentences is in quotes, because the script uses the \emph{sliding window} technique.
+Sentences is in quotes, because the script uses the \emph{sliding window} technique. %TODO: Referenz für Sliding Window
 This means we have a window of $window\_size$ characters, this window will be moved in every iteration by $step\_size$ characters.
 This results in cut off words, but improves the contextualization between the sentences.
 To feed the sentences to the network they are vectorized into a boolean representation.
-The encoded data looks has the following shape:  $x=(sentence\_count, distinct\_character\_count)$ and for $y=(sentence\_count, sentence\_length, distinct\_character\_count)$.
+The encoded data has the following shape:  \texttt{x=(sentence\_count, distinct\_character\_count)} and for 
+\texttt{y=(sentence\_count, sentence\_length, distinct\_character\_count)}.
 
-This data is then fed to the model shown in Listing \ref{textgen}.
-At the end of every epoch, it generates text based on a random text window of the original input text.
-Using this \enquote{seed} it will predict character by character.
-This happens with a varying degree of diversity.
-This means not using the most probable next character, but varying and hence enabling less probable characters to be used, if diversity increases.
+This data is then fed to the network.
+At the end of every epoch, it generates text based on a random slice of text of the original input text.
+With this \emph{seed} it will predict character by character.
+This happens with a varying degree of diversity, meaning not using the most probable next character, but varying and hence enabling less probable characters to be used, with increasing diversity.
 According to the author of the script, after 20 epochs text should start to sound coherent.
 It also states, that increasing the size of the trained text should improve results.
 
@@ -225,16 +226,20 @@ In order to evaluate the generation we run the following experiments
 \begin{enumerate}
 \item{Run the example-script as is}
 \item{Run the example-script as is with increased sliding window size}
-\item{Run the example with different text input}
+\item{Run the example-script as is with increased sliding window size with different input text}
 \item{Run the example with different text input and use a GRU instead of LSTM}
 \end{enumerate}
 
 Our different text input are all books from Harry Potter combined.
-The found book text was quite noisy, so we decided to clean it via a script.
+The used book text was quite noisy, so we decided to clean it via a script.
 We removed several orthography related characters and new lines.
-This resulted in a $distinct\_characters$ drop of 37.
+This resulted in a $distinct\_characters$ drop to 37.
 To compare, Nietzsche's text contains 52.
-This should improve the results, given that less non fitting characters can be predicted.
+The adjusted input contains a much larger text corpus than the original input.
+The cleaned version of all Harry Potter books contains around 6,14 million characters.
+In comparison to Nietzsche's writings which consists of 600,901 characters.
+This means a factor 10 increase of the training data.
+We believe this will improve the results, given that less non fitting characters can be predicted and more training data is provided.
 
 In addition we increased the sentence length to 100 instead of 40.
 We set the $step\_size$ from 3 to 6.
@@ -244,42 +249,48 @@ Also the average word length is approximately 5 characters\cite{shannon1951predi
 Combining that results in 100 characters per sentence ($20 * 5$).
 We also expect a longer sequence length to improve the generated result, given that LSTM's use historical data well, and short sequences might already have dropped relevant previous context\cite{sundermeyer2013comparison}.
 
+The last experiment uses a GRU instead of a LSTM, which is a bit simpler than the LSTM, but should yield similar results \footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}.
+
 
 
 \subsection{Results}
-% Nietzsche TODO
-The script as is generates somewhat valid English words after 60 epochs of learning with a low diversity, see listing \ref{nietzsche-low-diverse}.
+% Nietzsche original
+The script as is generates somewhat valid English words after 60 epochs of learning with a diversity of 0.5, see Listing \ref{nietzsche-low-diverse}.
 
-When comparing the results of the vanilla script,  with the ones of the adjusted script, see listing \ref{nietzsche-low-diverse-increased}, we can see that increasing the sliding window length does not seem to negatively affect the validity of the generated text. (TODO: schauen obs sogar besser geworden ist)
-
-However, the produced words only makes sense individually.
+%Nietzsche modifierd
+When comparing the results of the vanilla script,  with the ones of the adjusted script, see Listing \ref{nietzsche-adjusted-low-diverse}, we can see that increasing the sliding window size does not seem to negatively affect the validity of the generated text.
+However, the produced words only make sense individually.
 They do not create meaningful sentences.
-When increasing the diversity the results are getting worse and worse.
+When increasing the diversity the results are getting worse and worse to the point where it becomes just random characters, hence we did not included it in the appendix.
 
 % Harry Potter Vanilla (sliding window angepasst)
-Generated text with low diversity based on the Harry Potter dataset can be found in listing \ref{harry-all-low-diverse}.
-The results are very disappointing, given that the training text is much bigger and even cleaned.
-We are not able to identify why the increased text corpus size did not improve the results.
-But still, the produced text contains at least some valid English words.
-Increasing the diversity here only leads to more gibberish sentences or even no valid words at all.
+When changing the input text to the Harry Potter books, the LSTM (Listing \ref{harry-adjusted-low-diverse}) generated a coherent sounding sentence, after just 7 epochs, which is then followed by 140 characters of i's and other single characters.
+Interestingly enough it then recovers producing normal words again.
+Although it sounds grammatically well formed, the sentence does not make sense in what it says.
 
-% GRU is supposed to yield to similar results as the LSTM, we found that to be true
-% Harry mit Gru
-Because of the disappointing results of the LSTM, we replaced it with a GRU.
-The GRU is a bit simpler than the LSTM, but should yield similar results \footnote{\url{http://colah.github.io/posts/2015-08-Understanding-LSTMs/}}.
-But again it produces largely garbage.
-You can find produced text in the listing \ref{evaluation}.
-From a subjective viewpoint, it seems to us, that  the GRU has slightly better results than the LSTM.
+%GRU
+The GRU  produces good results after just 1 epoch in the sense that the output only contains 7 invalid words and no character gibberish.
+Also the words that are wrong always contains a substring of a valid word, but it gets invalidated by a wrong leading or trailing character.
+The sentence has not as good of a grammatical structure as the LSTM.
+
+During training we noticed a very strange behavior, where the generated text became worse with increasing epochs.
+That's why we presented the output after just a few epochs.
+This was unexpected, because the script claims after 20 epochs the text sounds coherent.
+However in our results, the best text was produced after just 7 epochs and even just 1 epoch for the GRU, see Listings \ref{harry-adjusted-low-diverse} and \ref{harry-gru-low-diverse}.
+The quality of the text was also deducible from the loss value during the training process.
+For the shown results it was between 1 and 2.
+After the next epoch of the good results, the loss values rose to 7 or 5, further training did lower the loss, but it never reached a value below 4.
+Sentences with a loss value above 2 already look like pure gibberish (example in Listing \ref{harry-gru-gibberish})
 
 \section{Text Translation}
 \label{sec:trans}
 In this section we want to focus on the translation of strings from a source to a target language.
-For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq} \cite{kerasexamples}.
+For this we use the \emph{Keras} example script called \emph{lstm\_seq2seq.py} \cite{kerasexamples}.
 
 \subsection{Script}
-It reads in a text file in which every line represents a translation.
+The script reads a text file in which every line represents a translation.
 The first part is the source language, delimited by a tab character indicating the start of the target language.
-The input gets processed in a similar way as the text generation script, see \ref{TODO}.
+The input gets processed in a similar way as the text generation script, see Section \ref{textgen-script}.
 One of the changes is, that the representation of the sentences is encoded with floats instead of booleans.
 
 The model consists of an encoder and a decoder model.
@@ -288,7 +299,7 @@ Both are LSTMs and are combined into one model in order to train the net.
 In total the model trains for 100 epochs.
 
 \subsection{Experiments}
-In order to evaluate the translation we run the following experiments
+In order to evaluate the translation we run the following experiments:
 
 \begin{enumerate}
 	\item{Run the example-script as is}
@@ -297,48 +308,139 @@ In order to evaluate the translation we run the following experiments
 
 \subsection{Results}
 We validate the translation for correctness by comparing the expectation with the prediction.
-We also check against the full dataset.
 Source sentences can occur multiple times, hence for these we check if one of the possible translation matches.
 
 % TODO: Fra -> Eng
 
-
 % English -> Dutch
+The English to Dutch translation is not very effective.
+Only 1705 of 10,000 sentences are translated correctly.
 
 
-%s2snl_main Results
-%Got 3 out of selected 16
-%Got 1318 out of 10000
 
-
-\section{Learning to calculate from Sequences using RNN}
+\section{Addition and Multiplication}
 \label{sec:rnn}
+Our goal for this section is to train \emph{Recurrent Neural Networks} (RNNs) to do additions and multiplications by solely providing string sequences as data.
 
-The original example script \textit{addition\_rnn.py}\cite{kerasexamples} tries to teach a Recurrent Neural Network (RNN) to do simple additions by solely providing sequence to sequence string data.
-We modified it to do a multiplication, and generate around 270k entries. The training process is quite lengthy, having reached epoch 17 / 35 after 43 hours our Job got cancelled due to a reboot.
-We decided 15 Epochs will have to do and saved the model via keras model.save function. This turned out to be a smart decision because after successfull training, a unicode character exception flew which we were able to debug quickly through the pretrained model.
+\subsection{Script}
+The experiments are based on the Keras example script \textit{addition\_rnn.py}\cite{kerasexamples}.
+The script generates 50,000 additions with solutions.
+There is an question and an expectation array.
+The questions are saved as string that look like the following:
+\texttt{023+123}.
+As you can short numbers are padded with zeros in front.
+The same holds true for the expectation.
+
+After generation, the samples get vectorized just like the data in section \ref{textgen-script}.
+
+
+% TODO
+The sequential model consists of two LSTM layers.
+The first LSTM layer works as encoder which soutputs HIDDEN\_SIZE values.
+The second LSTM layer works as decoder and returns all outputs so far.
+Then a TimeDistributed layer is applied to densify every slice of the input from the encoder.
+
+\subsection{Experiments}
+For the evaluation we run two experiments:
+\begin{enumerate}
+	\item{Run the example-script as is}
+	\item{Run the example-script using varying RNNs types and layer amounts for multiplication}
+\end{enumerate}
+
+For the multiplication we generated 270,000 training samples that look like the addition samples.
+We also generate a test set of 1,000 samples, that are not included in the training set.
+Because the multiplication is more complex than the addition, we decided to try out different types of RNNs, namely LSTMs and GRUs.
+We also experiment with using five decoding layers instead of just one.
+During the training we saved the model after every iteration to be able to evaluate the performance of the model over time.
+
+\subsection{Results}
+The addition script claims to have an accuracy of 99\% on a training set of 50,000 samples.
+We ran the script and achieved full accuracy after just 42 iterations.
+Because the results are already almost perfect we decided not to run further experiments on the addition.
+
+
+%multiply
+%TODO übergang besser machen
+For the multiplication the results can be seen in Figure \ref{fig:multiply}.
+The accuracy of the different nets are plotted at every iteration.
+It is evident, that the additional decode layers have worsened the accuracy.
+In addition, the runtime was much higher.
+Thats why we decided to stop the learning process of the net, with the 5 LSTM decode layers at 77 iterations.
+But nevertheless, the best accuracy for this net is already reached after 20 to 30 iterations.
+The one layer GRU and LSTM nets are competing quite close, but the very best accuracy is reached by the LSTM at around 80 iterations.
+The GRU also shows an interesting disadvantage in the graph: at some iterations accuracy drastically drops, but yet it always recovers.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\linewidth]{img/multiply}
+\caption{Evaluating multiplication accuracy on the test set using varying nets}
+\label{fig:multiply}
+\end{figure}
+
+\section{Autoencoder}
+\label{sec:autoencoder}
+In this section we want to take a look on \emph{Autoencoders}.
+For this purpose we encode MNIST digits to compress then.
+Afterwards we decode them again in order to see how good the autoencoder works.
+We also want to experiment with denoising images.
+For that we apply random noisy pixel onto the original samples and try to denoise the sample afterwards.
+
+The scripts are based on the \emph{The Keras Blog} entry \emph{Building Autoencoders in Keras}\footnote{https://blog.keras.io/building-autoencoders-in-keras.html}.
+
+\subsection{Experiments}
+
+\begin{enumerate}
+	\item{deep vs. modified deep autoencoder}
+	\item{convolutional vs. modified convolutional autoencoder}
+	\item{convolutional denoising vs modified convolutional denoising autoencoder}
+\end{enumerate}
+
+\subsection{Results}
+
+
+
 
 \appendix
 \section{Text Generation}
-\begin{lstlisting}[label=nietzsche-low-diverse, caption={Nietzsche after 60 epochs}]
------ diversity: 0.2
-TODO
+\begin{lstlisting}[label=nietzsche-low-diverse, caption={riginal script with Nietzsche after 60 epochs and a diversity of 0.5}]
+----- diversity: 0.5
+----- Generating with seed: "emplation of the saint suggested to them"
+emplation of the saint suggested to themselves to the intelligious sound of the pleasure, and their salver, there is a purpose is always at the person of power and necessary of mean will, as it is not the impudiated and conscience to which the world at all like the process of the sign of the self-destinct of the world the spirit, and in the consequent, as it will been discoverer of the scame of self european and secrecy and act of life 
 \end{lstlisting}
 
-\begin{lstlisting}[label=lstm-harry-all-low-diverse, caption={LSTM Harry Potter after 60 epochs, diversity=0.2}]
------ diversity: 0.2
------ Generating with seed: "his last, comforting thought before he fell asleep was that even if the potters were involved, there"
-his last, comforting thought before he fell asleep was that even if the potters were involved, there
-b a t ood the t   the cyctean the l they fot s the and fun w  and and the thu mbled we wh   the orn had back and of t wever me wan the the d evon thoug be t out the abrtu whand the shou harry the the breger po i o  v a anow  ht wan the to has the duull tall war of the habe was be ad  w of his rr t h omn r t sh o t the to  blo th hupp l the the t to to te  s  t  o  thuw  has   t a t  tath harry
+\begin{lstlisting}[label=nietzsche-adjusted-low-diverse, caption={adjusted original script with Nietzsche after 60 epochs and a diversity of 0.5}]
+----- diversity: 0.5
+----- Generating with seed: "o their taste,
+including the enmity and voltairean bitterness against religion (and all
+that formerl"
+o their taste,
+including the enmity and voltairean bitterness against religion (and all
+that formerly, the saits that
+it was an inventives are more and the servits of the incaln man who is always the secre to himself? this is the most pain the probably made also a great wordsy
+(or efor that it is always a strong to the ancient ruinssed his despaysved his actions and conscious the wean the boldaing, and may be exalled, which not we free spiritsked, and which is not
+opinions and his own indepenced
 \end{lstlisting}
 
-\begin{lstlisting}[label=gru-harry-all-low-diverse, caption={GRU Harry Potter after 60 epochs, diversity=0.2}]
------ diversity: 0.2
------ Generating with seed: "his last, comforting thought before he fell asleep was that even if the potters were involved, there"
-his last, comforting thought before he fell asleep was that even if the potters were involved, there
-a   af he ain alual thereery he  is aid ash her her h d h the led the he an si  he  as ae a  es of sthe w there ae t  the h as eher the alo ha i as a t he wating of hin  sac o ly e agurene thethe an thuerere theauther the he  harerer the ase hef ther her as the hanou the ther the the at  ithe  the to  erer and as erer there a w ase a her d e thathery the asi he a s thet whe ene se an  s  o he h he
+
+\begin{lstlisting}[label=harry-adjusted-low-diverse, caption={adjusted original script with Harry Potter after 7 epochs and a diversity of 0.5}]
+----- diversity: 0.5
+----- Generating with seed: "t harry, never forget that what the prophecy says is only significant because voldemort made it so. "
+t harry, never forget that what the prophecy says is only significant because voldemort made it so. hermione to hard burned the stairs and the words would hear the best of the window and looking out of the exterm in the field. i a n i do i i i i i i i i i d i i i i i p i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i i l n i do i i i i i i i f on the sirius was said harry, with the houses and some of his portrait and the neare, and a with him the third with a screaming and b
 \end{lstlisting}
 
+
+\begin{lstlisting}[label=harry-gru-low-diverse, caption={script with GRU and with Harry Potter as input after 1 epoch and a diversity of 0.5}]
+----- diversity: 0.5
+----- Generating with seed: " it was, he had just done serious magic, which meant that he was almost certainly expelled from hogw"
+it was, he had just done serious magic, which meant that he was almost certainly expelled from hogwarting into the carry a scurred around that sitter her starter was as on the wand her face at that someth ye moaned that you cant they suppose to her harry happied her set of the carried of the of the carried the floor. expered and last that was connetter sumpration she case for hermione could he said ron, harry was was now could then of the staring to maning along class croad on the fire come th
+\end{lstlisting}
+
+
+\begin{lstlisting}[label=harry-gru-gibberish, caption={script with GRU and with Harry Potter as input after 2 epoch and a diversity of 0.2 and a loss value of arround 2.4}]
+----- diversity: 0.2
+----- Generating with seed: "ct. in the back of the shop, a boy with a pale, pointed face was standing on a footstool while a sec"
+ct. in the back of the shop, a boy with a pale, pointed face was standing on a footstool while a secon sar hea  asta as athe  ore hart and ladr d as ause sas an nn he  ande has aereth arrider he there and nye he  has t asnd d  he and sare tou hea s sar ted t nang d ge he the and whe tlihe as thane ssas t ser er age ine es heraisere the an  uhat onate was aci asd e hanan talon a   sas asrreas therere and t iseasy  ofere s ter tohe erean  at as rasdi sas itont aar re he aud, the sais fas antd harc
+\end{lstlisting}
 
 \bibliography{report} 
 \bibliographystyle{ieeetr}
