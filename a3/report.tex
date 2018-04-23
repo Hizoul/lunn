@@ -1,0 +1,89 @@
+\documentclass{article}[]
+\usepackage[textwidth=15cm]{geometry}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{csvsimple}
+\usepackage{float}
+\usepackage{csquotes}
+\makeatletter
+\newcommand\urlfootnote@[1]{\footnote{\url@{#1}}}
+\DeclareRobustCommand{\urlfootnote}{\hyper@normalise\urlfootnote@}
+\makeatother
+
+\begin{document}
+	\title{Neural Networks Assignment 3 - Google Deep Dream}
+	\author{Anonymous}
+	\maketitle
+	\lstset{
+		basicstyle=\ttfamily,
+		keywordstyle=\bfseries,
+		language=Java,
+		frame=single,
+		aboveskip=11pt,
+		belowskip=11pt,
+		breaklines=true,
+		breakatwhitespace=false,
+		showspaces=false,
+		showstringspaces=false,
+		numbers=left,
+		stepnumber=1,    
+		firstnumber=1,
+		numberfirstline=true
+	}
+	
+	\section{Abstract}
+	
+	\section{Introduction}
+	% was machen wir eigentlich
+	% https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html
+	
+	\section{Problem Statement \& Motivation}
+	% Warum machen wir das überhaupt? -> NN sind Blackboxes, haben zwar definierte Struktur, aber Zusammenspiel der Weights unbekannt
+	% Und natürlich Spaß
+	% https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html
+	
+	\section{Related \& Previous Work}
+	% Was hat Google und andere gemacht und was probieren wir
+	\section{Display Convolutional Filters}
+	\section{When it does start to begin to be a dream}
+	
+	
+	\subsection{Google Deep Dream}
+	\subsection{Yahoo Deep Dream}
+	
+	\section{How Does Dreaming Work}
+	
+	\subsection{General}
+	% Einzelne Neuronen identifizieren und deren Features visualisieren, durch Verändern des Input Images, so dass die Neuronen mehr aktiviert werden
+	% Niedrige Layer enthalten eher abstrakte Features we Linien, Kurven und Ecken während höhere Layer konkrete Features wie z.B. Augen oder Säulen abbilden
+	\section{Guided Dreaming}
+	% mit Reference Image
+	
+	
+	
+	\section{Data And Used Models}
+	% vortrainierte Neural Networks erklären/erwähnen
+	% alle basieren auf der Image Database "ImageNet"
+	
+	\section{Experiments And Results}
+	\subsection{Without Reference Image}
+	\subsection{With Reference Image}
+	
+	\section{Conclusion}
+	% Test: Image modifizieren mit dem Ziel es bestimmt Klassifizieren zu lassen, anschließend diese Behauptung prüfen
+	
+	
+	
+	
+	
+	
+	
+	
+	\bibliography{report} 
+	\bibliographystyle{ieeetr}
+	
+	
+\end{document}
