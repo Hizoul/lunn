@@ -14,5 +14,9 @@
   - random guide
   - TODO: iwas von tensorflow tutorial einbringen (laplace pyramid o.a.)
 
-homework:
-
+homework
+- oliver
+  - how does dreaming work
+- mmb
+  - introduction + previous work
+  - so viel wie geht data used
