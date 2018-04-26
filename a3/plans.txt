@@ -1,0 +1,18 @@
+- benutzte daten + networks entscheiden => hw: darüber als homework schreiben
+  - wenn geht resnet bestes aktuell
+  - was für bild anpassen
+    - weiß! weil voll dream
+    - landschaftsbild alpen
+    - karneval mit vielen leuten weil kostüme
+  - was für guides
+    - kein guide
+    - leiden bild mit häusern und wasser
+    - affen => gorilla
+- was für experimente? => hw: den versuchsaufbau + versuche beschrieben
+  - step_size anpassen
+  - eigenen guide
+  - random guide
+  - TODO: iwas von tensorflow tutorial einbringen (laplace pyramid o.a.)
+
+homework:
+
