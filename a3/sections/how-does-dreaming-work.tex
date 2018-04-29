@@ -1,7 +1,67 @@
+% https://arxiv.org/pdf/1312.6034v2.pdf - Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps
+
 \section{How Does Dreaming Work}
 \label{sec:how}
+
+This section will focus on the main techniques how dreaming actual work.
+Similar to the training process of a network, the dreaming algorithm is an optimization problem.
+% TODO Formulierung
+But rather than training something to classify samples better, the input gets modified in order to get classified more strongly.
+
+
 \subsection{General}
+When looking at the training process of a (Convolutional) Neural Network, one can see that the weights and biases, following only called weights, are changed in such a way that a given error function gets minimized.
+Because the error function, for instance \emph{mean squared error}, is rather complex the derivation is very complex if not even infeasible.
+
+% Gradient: Technik um größten Anstieg zu finden -> man nimmt also beim Trainieren den negativen Gradient: -Delta(->W) = [0.2 -1 ...] // GIbt an wie die Weights verändert werden sollten
+% Numerische Approximation des Gradients: https://en.wikipedia.org/wiki/Numerical_differentiation
+% Gradient Descent/ Full Backpropagation): mache es für alle Trainingsamples und nehme den durchschnitt
+% Stochasitic Gradient Descent: Nehm ein paar und nehme den Durchschnitt
+% Backpropagation: Determine how one trainign example want to change the weights and biases
+
+
+That's why the \emph{Gradient descent} algorithm is used to find the (global) minima\footnote{however, using the gradient descent often leads only to a local minima} of the function by taking small steps into the direction of the minima.
+This is done by calculating the partial derivatives of the cost function in regard to every weight and bias.
+
+% TODO: mathematische Formeln hinzufügen
+In order to do this the learning step can be divided into two essential steps.
+First there the \emph{forward} pass, where a sample gets classified by the net.
+After that the error made by the network is calculated.
+The second step, the \emph{backward} pass, consists of the algorithm of \emph{backpropagation}.
+Based on result of the error function, the negative gradient for every weight and bias is calculated.
+This can be interpret as the direction in which the function should step in order to decrease that error.
+These gradients are added to the weights and bias, which is basically the learning process.
+To prevent too slow learning or \enquote{overshooting} local minima a \emph{learning rate} is introduced which gets multiplied with the gradients.
+
+As already said in the introduction of this section, the goal of the Deep Dream technique is not to minimize the cost function, but to modify the input.
+Concrete speaking, you choose a layer within the net which output you want to maximize.
+We let then the network choose which feature(s) are most present with a given input image at that layer.
+
+% TODO: then use the technique of the backpropagation 
+
+Intuitively this means that we want to increase the features that the network detects such that they are getting more present.
+Same as the normal training process of the network, the dreaming is done by using multiple iteration.
+%TODO Ref sobald sie da ist
+There are also other techniques to improve the results which will be discussed in Section \ref{TODO}
+
+
+% Add Gradient Descent Image
+
+
+
+% TODO: Das ist eher eine Konklusion und sollte später bei der Auswertung erwähnt werden
 % Einzelne Neuronen identifizieren und deren Features visualisieren, durch Verändern des Input Images, so dass die Neuronen mehr aktiviert werden
 % Niedrige Layer enthalten eher abstrakte Features we Linien, Kurven und Ecken während höhere Layer konkrete Features wie z.B. Augen oder Säulen abbilden
+
+
+
+% https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/deepdream/deepdream.ipynb
+% Achtung Zitat: 
+%\enquote{It consists of a set of layers that apply a sequence of transformations to the input image. The parameters of these transformations were determined during the training process by a variant of gradient descent algorithm. 
+% The internal image representations may seem obscure, but it is possible to visualize and interpret them.}
+
+
 \subsection{Guided Dreaming}
 % mit Reference Image
+Instead of increasing the occurrence of present features within an image we can also use a reference image in order to achieve \emph{Guided Dreaming}.
+For instance if you use a reference picture with animals, the Deep Dreaming algorithm will add animal features the input image that gets modified.
