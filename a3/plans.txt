@@ -1,7 +1,7 @@
 - benutzte daten + networks entscheiden => hw: darüber als homework schreiben
   - wenn geht resnet bestes aktuell
   - was für bild anpassen
-    - weiß! weil voll dream
+    - weiß! weil voll dream (noise besser? weil paper häufig benutzen)
     - landschaftsbild alpen
     - karneval mit vielen leuten weil kostüme
   - was für guides
@@ -13,6 +13,13 @@
   - eigenen guide
   - random guide
   - TODO: iwas von tensorflow tutorial einbringen (laplace pyramid o.a.)
+
+heute:
+  - bilateral
+  - rumspielen => guide https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/deepdream/deepdream.ipynb
+    - addition von verschiedenen neuronen
+    - square aller neuronen
+
 
 homework
 - oliver
