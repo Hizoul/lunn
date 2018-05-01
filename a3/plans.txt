@@ -22,8 +22,6 @@ heute:
 
 
 homework
-- oliver
-  - how does dreaming work
-- mmb
-  - introduction + previous work
-  - so viel wie geht data used
+- kapitel schreiben (bis 7.05 fertig schreiben für korrektur)
+  - bilateral kapitel mmb
+- layer convolutions auf ausgesuchte images anwenden
