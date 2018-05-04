@@ -30,15 +30,21 @@ The gradients can be interpret as the direction in which the function should ste
 Hence we want to minimize the loss we take the negative gradient and add them to the weights and biases.
 To prevent too slow learning or \enquote{overshooting} a local minima a \emph{learning rate} is introduced which gets multiplied with the gradients.
 
-As already said in the introduction of this section, the goal of the Deep Dream technique is not to minimize the cost function, but to modify the input to maximize the activations of certain neurons.
-Concrete one can choose a whole layer within the net or just some neurons of a layer which output should be maximized.
-Because the weights and biases are fixed the input image is modified in order to activate the neurons more.
-To achieve this an image is fed into the net and the activation values of neurons at a layer gets computed.
+%TODO: Vielleicht Layer als l_end beschreiben, damit man dann sowas sagen kann wie: Gradients von Layer 0 - l_end sind berechnet worden
+As already said in the introduction of this section, the goal of the Deep Dream algorithm is not to minimize the cost function, but to modify the input to maximize the activations of certain neurons.
+Concrete speaking one can choose a whole layer within the net or just some neurons of a layer which output should be maximized.
+By a normal forward pass to the specified layer the activation values gets computed.
+In order to start the backward pass now, the gradient of the specified layer has to be set.
+This can be done in several ways, at this point just assume that the gradients are set to the same values as the
+activation values of that layer.
+By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole submodel by automatic differentiation.\footnote{TODO Quelle: \url{http://caffe.berkeleyvision.org/tutorial/forward_backward.html}}
+That's why the gradients (or at least the values) of the specified layer has to be set to something, because every layer needs the gradients from its previous layer in order to work.
 
-%TODO Herausfinden welche loss function verwendet wird
+When the backward pass is done, all gradients are computed.
+Obviously the gradients consists of many as values as there are weights and biases.
+But here only the weights of the input layer are important, because these are the weights that can be added to the input image.
 
-%TODO unsicher
-The backward pass will now start from the specified layer to the input.
+
 The gradients gets computed, but instead of adding the gradients to the weights and biases, they get added to the input image.
 
 
