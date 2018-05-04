@@ -32,7 +32,7 @@ To prevent too slow learning or \enquote{overshooting} a local minima a \emph{le
 
 %TODO: Vielleicht Layer als l_end beschreiben, damit man dann sowas sagen kann wie: Gradients von Layer 0 - l_end sind berechnet worden
 As already said in the introduction of this section, the goal of the Deep Dream algorithm is not to minimize the cost function, but to modify the input to maximize the activations of certain neurons.
-Concrete speaking one can choose a whole layer within the net or just some neurons of a layer which output should be maximized.
+Concrete speaking one can choose a whole layer within the net or just some neurons of a layer which output should be maximized according to the L2 norm.
 By a normal forward pass to the specified layer the activation values gets computed.
 In order to start the backward pass now, the gradient of the specified layer has to be set.
 This can be done in several ways, at this point just assume that the gradients are set to the same values as the
@@ -40,41 +40,38 @@ activation values of that layer.
 By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole submodel by automatic differentiation.\footnote{TODO Quelle: \url{http://caffe.berkeleyvision.org/tutorial/forward_backward.html}}
 That's why the gradients (or at least the values) of the specified layer has to be set to something, because every layer needs the gradients from its previous layer in order to work.
 
+
 When the backward pass is done, all gradients are computed.
 Obviously the gradients consists of many as values as there are weights and biases.
-But here only the weights of the input layer are important, because these are the weights that can be added to the input image.
-
-
-The gradients gets computed, but instead of adding the gradients to the weights and biases, they get added to the input image.
-
-
-
-Same as the normal training process of the network, the dreaming is done by using multiple iteration.
-There are also other techniques to improve the results which will be discussed in Section \ref{sec:optimizations}
-
-% TODO: erklären das jitter / image shift dafür da ist, dass übe rmehrere iterationen die änderungen smooth zusammen gehen siehe calc_grad_tiled in https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/deepdream/deepdream.ipynb
-
-
-% TODO: Das ist eher eine Konklusion und sollte später bei der Auswertung erwähnt werden
-
-
-% Niedrige Layer enthalten eher abstrakte Features we Linien, Kurven und Ecken während höhere Layer konkrete Features wie z.B. Augen oder Säulen abbilden
-
-
-
-% https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/deepdream/deepdream.ipynb
-% Achtung Zitat: 
-%\enquote{It consists of a set of layers that apply a sequence of transformations to the input image. The parameters of these transformations were determined during the training process by a variant of gradient descent algorithm. 
-% The internal image representations may seem obscure, but it is possible to visualize and interpret them.}
-
-
-\subsection{Guided Dreaming}
-% mit Reference Image
-Instead of increasing the occurrence of present features within an image we can also use a reference image in order to achieve \emph{Guided Dreaming}.
-For instance if you use a reference picture with animals, the Deep Dreaming algorithm will add animal features the input image that gets modified.
-
+But with Deep Dream only the weights of the input layer are important, because these can be added to the input image.
+By adding the gradients, the activation values at the specified layer will increase and with that, the features will become more present.
 
 \subsection{Optimizations}
 \label{sec:optimizations}
-% step_size
-% upscaling nötig, da das Bild auf einer Auflösung irgendwann fast fertig optimiert ist
+Same as the normal training process of the network, the dreaming is done by using multiple iteration.
+By repeating the process over and over again, the features become more and more present, obviously only to an extend.
+
+Another thing that is commonly used is the \emph{step size}, also called \emph{learning rate} in Neural Networks.
+Instead of just adding the gradients as they are, one can higher or lower the effect by choosing a $step size < 1$ and $> 1$ respectively.
+
+% TODO Octaves
+TODO: Besides these two quite simple techniques \emph{octaves} are used. 
+
+Another small tweak is to use a jitter, that shifts the image along the x and y-axis in a random interval before the forward and backward pass.
+This will lead to different activation functions and hence to different gradients and finally to a different change to the image.
+This jitter shift is undone, after the image is modified.
+This small trick not just lead to different results, it also provides smooth transitions between remarkable enhanced features.
+
+
+
+\subsection{Guided Dreaming}
+\label{guided-dreaming}
+Instead of increasing the occurrence of present features within an image one can also use a reference image in order to achieve \emph{Guided Dreaming}.
+The approach is basically to do a normal forward pass with a reference image and to save the activations at the specified layer.
+
+Zitat https://github.com/google/deepdream/blob/master/dream.ipynb: \enquote{Instead of maximizing the L2-norm of current image activations, we try to maximize the dot-products between activations of current image, and their best matching correspondences from the guide image.}
+
+
+
+For instance if you use a reference picture with animals, the Deep Dreaming algorithm will add animal features the input image that gets modified.
+
