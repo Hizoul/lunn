@@ -1,8 +1,18 @@
 \section{Related \& Previous Work}
 \label{sec:previous-work}
-% Was hat Google und andere gemacht und was probieren wir
-\subsection{Display Convolutional Filters}
-% https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html
-\subsection{Google Deep Dream}
-% differenzieren zwischen erstem topic und "dream"
-% erläuterung deep dream
+\subsection{Previous Work}
+There are different methods to visualize the content of convolutional neural network.
+As explained in Section \ref{sec:how}, \textit{Deep Dream} uses a gradient ascent to achieve its results.
+Before the gradient ascent, Zeiler had already developed a method in 2011 called deconvolutional neural networks, to visualize said features\cite{zeiler2011adaptive}.
+Simonyan has found that both approaches produce very similar results\cite{simonyan2013deep}.
+The reason for that is if that the gradient ascent is a generalisation of the deconvolutional approach.
+This generalisation also means that gradient ascent can be applied to any arbitrary layer while the deconvolution is limited to deciphering convolutional layers\cite{simonyan2013deep}.
+
+\subsection{Related Work / Possible Applications}
+The visualization of learnt features can be used to achieve different artistic things.
+Berov successfully applied \textit{Deep Dreaming} to imitate the visual effects a person might encounter during a hallucination onto any arbitrary image\cite{berov2016visual}.
+We subjectively consider some of our results, visible in Section\ref{sec:evaluation}, to also look quite \enquote{trippy} at points which is close to a hallucination.
+DiPaola applied \textit{Deep Dreaming} to transform images so they look like they have been painted by a famous painter\cite{dipaola2016using}.
+This process is called style transfer and in his experiments DiPaola successfully transformed portrait pictures to look like they were painted by Rembrandt or Freud.
+
+

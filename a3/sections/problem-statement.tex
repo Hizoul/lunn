@@ -4,8 +4,9 @@
 Neural Networks with meaningful applications are complex structures with many layers, nodes and trained weights.
 For example VGG19, an Image Categorisation Neural Network, consists of 19 Layers summing up to a total of 143,667,240 trained parameters\cite{vgg}. These weights were trained to recognize images and map them to a description string based on the ImageNet Dataset.
 The problem one faces now is that there is no saying in what the individual layers and nodes have actually learned to respond to, or how the Neural Network actually draws a conclusion\cite{castelvecchi2016can}.
+That is considered quite unscientific because it means improving recognition models is a process of trial and error, where different model architectures are tried and the \textit{error rate} on the training / test data is slowly minimized with every new improved model\cite{\cite{zeiler2014visualizing}}.
 %  -> NN sind Blackboxes, haben zwar definierte Struktur, aber Zusammenspiel der Weights unbekannt
-Such behaviour is often referred to as a \textit{black box} and one of the fundamental architectural problems in mastering neural networks\cite{olden2002illuminating}.
+Such behaviour is often referred to as a \textit{black box} and one of the fundamental architectural problems hindering quicker process in developing and mastering neural networks\cite{olden2002illuminating}.
 
 % besser nachvollziehen von klassifizierung durch besseres verständnis / visualisierung der gelernten merkmale
 In order to get at least a small grasp of what these layers or nodes have learnt, an approach to visualize said knowledge is needed.
@@ -39,7 +40,7 @@ An example of this can be seen in Figure \ref{fig:guided}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{img/applied_neuron.png}
+	\includegraphics[width=0.5\linewidth]{img/applied_neuron.jpg}
 	\caption{A \textit{Deep Dream} onto a Landscape image as source which maximizes one specific neuron reacting apparently to certain edge types.}
 	\label{fig:applieddream}
 \end{figure}
