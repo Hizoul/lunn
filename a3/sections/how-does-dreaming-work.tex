@@ -44,7 +44,7 @@ That's why the gradients (or at least the values) of the specified layer has to 
 When the backward pass is done, all gradients are computed.
 Obviously the gradients consists of many as values as there are weights and biases.
 But with Deep Dream only the weights of the input layer are important, because these can be added to the input image.
-By adding the gradients, the activation values at the specified layer will increase and with that, the features will become more present.
+By adding the gradients, the activation values at the specified layer will increase or decrease and with that, respectively the features will become more or less present.
 
 \subsection{Optimizations}
 \label{sec:optimizations}
@@ -54,24 +54,35 @@ By repeating the process over and over again, the features become more and more 
 Another thing that is commonly used is the \emph{step size}, also called \emph{learning rate} in Neural Networks.
 Instead of just adding the gradients as they are, one can higher or lower the effect by choosing a $step size < 1$ and $> 1$ respectively.
 
-% TODO Octaves
-TODO: Besides these two quite simple techniques \emph{octaves} are used. 
+Besides these two rather simple techniques \emph{octaves} are used.
+The goal is of this procedure is to scale the image after every dream step.
+By increasing the size of the image in such a way, the network (hopefully) tend to find new features and enhances them as well, which finally leads to even more spectacular pattern.
+The algorithm starts with the smallest version of the image and do the normal dreaming process.
+By calculating the difference between the original and the dreamed image the added or removed features are extracted.
+For the next octave both the base image and the features of the previous octave get scaled by a scaling factor and are added up together.
+With this technique it is possible to create very large images, which will contain more and more features as the process proceeds.
 
+ 
 Another small tweak is to use a jitter, that shifts the image along the x and y-axis in a random interval before the forward and backward pass.
 This will lead to different activation functions and hence to different gradients and finally to a different change to the image.
 This jitter shift is undone, after the image is modified.
 This small trick not just lead to different results, it also provides smooth transitions between remarkable enhanced features.
 
+Because enhanced features can look harsh, especially with a high step size, a good way to smooth things out is to use a filter. The filter can either be applied after every iteration or after every octave.
+In Section \ref{sec:todo} the best results are presented and the used filters mentioned.
 
 
 \subsection{Guided Dreaming}
 \label{guided-dreaming}
 Instead of increasing the occurrence of present features within an image one can also use a reference image in order to achieve \emph{Guided Dreaming}.
-The approach is basically to do a normal forward pass with a reference image and to save the activations at the specified layer.
+The approach is to do a normal forward pass with a reference image and to save the activations at the specified layer.
+During the dreaming these activations are set to the gradients at the specified layers.
+Doing this leads to results, where the features of the reference image are enhanced in the input image.
+If one would give a reference image of cats to the network, the Deep Dream algorithm will create/enhance the learned features of cats in the input image.
 
-Zitat https://github.com/google/deepdream/blob/master/dream.ipynb: \enquote{Instead of maximizing the L2-norm of current image activations, we try to maximize the dot-products between activations of current image, and their best matching correspondences from the guide image.}
+There are also different approaches of the guided dreaming.
+For instance instead of just modify the input image according to the activations of the reference image, one could also select the best matching correspondences from the guide and the base image.
+To achieve this, the dot-products between the saved and the current activations of the image is calculated in order to find the best matching ones.
+This is done because it doesn't really make sense to enhance features in the original image, that aren't there at all.  \footnote{https://github.com/google/deepdream/blob/master/dream.ipynb}
 
-
-
-For instance if you use a reference picture with animals, the Deep Dreaming algorithm will add animal features the input image that gets modified.
 
