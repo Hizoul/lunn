@@ -1,48 +1,15 @@
 \subsection{Problem Statement \& Motivation}
 \label{sec:problem-statement}
 % Warum machen wir das überhaupt?
-Neural Networks with meaningful applications are complex structures with many layers, nodes and trained weights.
-For example VGG19, an Image Categorisation Neural Network, consists of 19 Layers summing up to a total of 143,667,240 trained parameters\cite{vgg}. These weights were trained to recognize images and map them to a description string based on the ImageNet Dataset.
-The problem one faces now is that there is no saying in what the individual layers and nodes have actually learned to respond to, or how the Neural Network actually draws a conclusion\cite{castelvecchi2016can}.
-That is considered quite unscientific because it means improving recognition models is a process of trial and error, where different model architectures are tried and the \textit{error rate} on the training / test data is slowly minimized with every new improved model\cite{\cite{zeiler2014visualizing}}.
+Neural networks with meaningful applications are complex structures with many layers, nodes and trained weights.
+For example VGG19 is an image categorization network that consists of 19 layers summing up to a total of 143,667,240 trainable parameters.\cite{vgg} These weights were trained to recognize images and map them to a label based on the ImageNet dataset.\cite{imagenet}
+
+While this network is performing quite well, one problem is that there is no saying in what features the individual layers and nodes have learned to respond to and how the final conclusion is drawn.\cite{castelvecchi2016can}
+This is one of the reasons that neural networks are often referred to as a \textit{black box} and is one of the fundamental architectural problems hindering quicker process in developing and mastering neural networks\cite{olden2002illuminating}.
+Hence improving and training neural networks might be considered unscientific because it involves a process of trial and error where different model architectures and input data are evaluated.\cite{zeiler2014visualizing}
 %  -> NN sind Blackboxes, haben zwar definierte Struktur, aber Zusammenspiel der Weights unbekannt
-Such behaviour is often referred to as a \textit{black box} and one of the fundamental architectural problems hindering quicker process in developing and mastering neural networks\cite{olden2002illuminating}.
+
 
 % besser nachvollziehen von klassifizierung durch besseres verständnis / visualisierung der gelernten merkmale
-In order to get at least a small grasp of what these layers or nodes have learnt, an approach to visualize said knowledge is needed.
-As maybe already apparent from the mention of VGG19, we are focusing on neural networks that process images.
-Hence the visualization methods that will be portrayed in the coming chapters are limited to image processing neural networks and not generally applicable to \textit{decipher} any neural networks weights.
-
-\subsubsection{Visualizing Learned Features}
-% https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html
-In this chapter we will describe the visual aspect of the so called \textit{Deep Dream} visualization method.
-A detailed mathematical explanation of how and why this works is given in Section \ref{sec:how}.
-Deep Dreaming requires a pretrained image recognition neural network, and a source image one wishes to modify. The source image can be any arbitrary image.
-Figure \ref{fig:neuronreact} portrays a small section of an abstract unspecified neural network.
-The small image parts contained within each neurons are examples of features a neuron can learn to respond to. In this instance the feature was then applied to a random noise image.
-One can pick out individual or a set of neurons,
-and activate them on the source image to modify it in a way that the learnt features are embedded into it.
-An example of this can be seen in Figure \ref{fig:applieddream}.
-Here the neuron on the very top left of Figure \ref{fig:neuronreact} was chosen to be activated the most in order to modify the source image and the learnt feature now dominates the visual appearance of the image.
-Since it would be close to impossible to find the right combination of neurons to draw a specific object, there is the possibility of a \textit{Guided Dream}.
-The concrete inner workings of the \textit{Guided Dream} are explained in Section \ref{guided-dreaming}.
-For a guided dream there is a second image in play, which we will refer to as \textit{Guide Image}.
-This image is processed by the network and the neurons that responded the most to the features contained within it will then be used for the modification.
-That way one could use a blank source image and a guide image, e.g. of a cat. By then selecting the strongest activated neurons by the guide we get an idea of which features the neural network learnt about cats.
-An example of this can be seen in Figure \ref{fig:guided}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\linewidth]{img/neurons-reaction.png}
-	\caption{A small section of an abstract unspecified neural network. Within the layers is the applied \textit{Deep Dream} visualizing the feature learnt by the neuron\cite{nielsen2015neural}.}
-	\label{fig:neuronreact}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\linewidth]{img/applied_neuron.jpg}
-	\caption{A \textit{Deep Dream} onto a Landscape image as source which maximizes one specific neuron reacting apparently to certain edge types.}
-	\label{fig:applieddream}
-\end{figure}
-
-% https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html
+In order to get an idea of what these node weights and biases have learned, an approach to visualize said knowledge is needed.
+The coming chapters are limited to convolutional neural networks and not generally applicable to \enquote{decipher} any neural network.
