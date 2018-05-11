@@ -1,6 +1,21 @@
 \section{Experiments And Results}
 \label{sec:evaluation}
-\subsection{Without Reference Image}
-\subsection{With Reference Image}
+As described in section \ref{sec:visual-aspects} applying the deep dream works by selecting layers and neurons that will enhance recognized features within the image.
+In order to select good layers for visualization, we apply each layer to a reference image and then handpick the layers that offer interesting features. The result of that can be seen in section \ref{sec:withoutguide}.
+By selecting only one layer we do not limit ourselves to specific neuron within the layer. Combining multiple layers features with each other is also not done through that technique. That is why, in section \ref{sec:withguide}, we will use the \emph{guided dreaming} presented in section \ref{guided-dreaming} to select multiple layers and neurons via a guide image.
+To apply the \emph{dream} we use a slightly modified version of the original google deep dream code for the neural network framework caffe\cite{googledeepdream}.
+
+\subsection{Performance Considerations}
+The runtime of deep dreaming depends mostly on the size of the input image.
+Using an image of $\approx$600x430 pixels it can already take around 45 minutes to apply and uses up to 14gb of RAM.
+We also introduced the bilateral filter which we will try to apply at every step. This will also heavily slow down the runtime because the application of the filter takes a few seconds and is applied at every step of modification.
+%TODO bilateral vorher iwo mal erwähnen in intro
+\subsection{Without Guide Image}
+\label{sec:withoutguide}
+
+% todo: hohe stepsize => krasses gebäude von layer 
+
+\subsection{With Guide Image}
+\label{sec:withguide}
 
 %TODO: beispiel hohe stepsize => visualisierung von haus o.a.
