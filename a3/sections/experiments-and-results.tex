@@ -15,13 +15,24 @@ We also introduced the bilateral filter which we will try to apply at every step
 The analyzed model contains 50 layers, so we will not be showing each one, but rather a selection of the ones we deemed most interesting.
 Within the layers many things from varying colors, basic features to parts of distinct objects.
 Looking at (layer 15/18 + 13/14) one can see that the recognizable features within a layer are definitely not limited to a particular one and also includes transitions(layer 13/14). These transitions can either distinguish pixelated regions to very sharp ones. But it can also result in a transition from smooth curves to very straight lines (layer16/18).
-Going further up in the layers we found one layer of particular interest, depicted in figure \ref{fig:layer-snake}. It visualizes four distinct things at once which makes it unique. The scales of a snake with it's head in the lower left part of the image Also to the right of the very left house is a small part of a snakes face visible that seems to contain an eye and two teeth. Apart from these two already distinctive objects the center seems to contain the right part of a dog face and above that the sky looks more like dog fur than snake scales. 
+Going further up in the layers we found one layer of particular interest, depicted in figure \ref{fig:layer-snake}. It visualizes four distinct things at once which makes it unique. The scales of a snake with it's head in the lower left part of the image Also to the right of the very left house is a small part of a snakes face visible that seems to contain an eye and two teeth. Apart from these two already distinctive objects the center seems to contain the right part of a dog face and above that the sky looks more like dog fur than snake scales.  
+If one looks for definite objects one can find eyes (layer 43), dogs(layer), 
+
+Another interesting find is layer 12 depicted in figure \ref{fig:layer-artistic}. If one ignores the lines and purple tint it look an artistic style filter was applied. This supports DiPaolo's, mentioned in section \ref{sec:previous-work}, that by using the right combination \textit{deep dream} can be used to modify pictures so they look like paintings.
+
+Another applied change that can be observed in almost all layers is a slight purple to rainbowish tint that gets applied to the image, especially where the features are applied.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{img/alpsted-landscape_res4f_branch2a.jpg}
 	\caption{Layer 41 \emph{res4f\_branch2a}. Seems like snake scales with a snake head in the lower left.}
 	\label{fig:layer-snake}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{img/alpsted-landscape_res3a_branch1.jpg}
+\caption{Layer 41 \emph{res3a\_branch1}. Apart from the distinct lines it seems to apply an artistic filter.}
+\label{fig:layer-artistic}
 \end{figure}
 
 
