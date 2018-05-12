@@ -1,8 +1,39 @@
 \section{Conclusion}
 \label{sec:conclusion}
+This section is about the observations and conclusion that were made while working on and with Deep Dream.
 % Test: Image modifizieren mit dem Ziel es bestimmt Klassifizieren zu lassen, anschließend diese Behauptung prüfen
-
-\subsection{Further Work}
-% Erklären, dass man auch Videos machen kann
+\subsection{Feature Abstraction Levels}
+\label{sec:feature-abstraction-levels}
+For the selection of layers we decided to create a dream for every convolutional layer.
+When looking at the results we noticed that lower layers tend to select more abstract features such as lines, curves or waves, while higher layers often selects more concrete features such as eyes, body parts of animals or parts of houses.
+This can be seen when one look the dreaming result of an lower layer, for instance shown in figure \ref{TODO}.
+A higher layer dreaming result can be found in figure \ref{TODO}.
 
 % Niedrige Layer enthalten eher abstrakte Features we Linien, Kurven und Ecken während höhere Layer konkrete Features wie z.B. Augen oder Säulen abbilden
+
+\subsection{Fool Networks}
+The first observation is that one can easily trick trained neural networks.
+This makes sense since concrete features are enhanced, which of course leads the network to be more confident in its classification.
+TODO: Rausschmeißen oder tests dazu machen
+
+
+\subsection{Replicated Features}
+As already said in section \ref{sec:feature-abstraction-levels} we created a dream with every convolutional layer in the network in order to select interesting layers.
+While doing this we made an interesting observation.
+As some features from different layers differ from each other in form, size and shape some features seem to repeat in an interesting way.
+As one can see in figure \ref{TODO}, the images look almost the same, the only real difference is the orientation.
+It almost look like that the enhanced features are just flipped.
+
+Based on that conclusion, one can think of optimizing the network such that maybe less layers are needed to classify a sample.
+Especially on performance critical classification tasks the gathered speed up could have a big impact.
+
+
+\section{Further Work}
+With Deep Dream it is also possible to create entire videos.
+This can be achieved through zooming.
+Starting with a single dream, one has to apply a little zoom and then start a dream based on the zoomed image again.
+While repeating this process over and over again, one can create infinitely long and interesting videos.
+Great examples of that can be found on different online video platforms.
+To mention just one example is a Deep Dream video created by the user Johann Nordberg\cite{https://vimeo.com/132700334}.
+In this example one can see the different level of abstractions of the layers.
+This video starts with lower and made its way to the higher layers.

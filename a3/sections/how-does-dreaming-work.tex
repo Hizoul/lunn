@@ -69,7 +69,7 @@ So in order to learn a network there are two essential steps:
 First there is the \emph{forward} pass, where a sample gets classified by the net.
 Afterwards the error made by the network is calculated with the given cost function.
 The second step, the \emph{backward} pass, consists of the algorithm of the \emph{gradient descent}, often called \emph{backpropagation} in the context of neural networks.
-Based on the error, also called \emph{loss}, the gradients for every weight and bias is calculated.
+Based on the error, also called \emph{loss}, the gradients for every weight and bias are calculated.
 
 The negative gradients can be interpret as the direction in which the function should step in order to minimize the loss.
 For the weight adjustment we merely add the gradients to the weights and biases.
@@ -81,7 +81,7 @@ For example one can choose a whole layer within the net or just some neurons of 
 A normal forward pass up until the specified layer will compute the activation values.
 The backward pass requires the gradients of the specified layer to be set.
 This can be done in several ways, at this point just assume that the gradients are set to the same values as the activation values of that layer.
-By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole sub model by differentiation.\footnote{TODO Quelle: \url{http://caffe.berkeleyvision.org/tutorial/forward_backward.html}}
+By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole sub model by differentiation using the chain rule.\footnote{TODO Quelle: \url{http://caffe.berkeleyvision.org/tutorial/forward_backward.html}}
 That's why the gradients (or at least the values) of the specified layer has to be set to something, because every layer needs the gradients from its previous layer in order to work.
 
 
