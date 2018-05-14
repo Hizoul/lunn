@@ -10,16 +10,17 @@ The results are presented in section \ref{sec:withguide}.
 
 
 \subsection{Performance Considerations}
+\label{sec:performance}
 The runtime of the deep dream depends mostly on the size of the input image and the layer amount.
 Using an image of $\approx$600x430 pixels, 30 layers, 10 iterations and 4 octaves can already take around 45 minutes to apply and uses up to 14GB of RAM\footnote{single threaded i7-5930k@3,5GHz, 32GB RAM}.
-We also implemented the bilateral filter which will be applied after every step.\cite{TODO}
+We also implemented the bilateral filter which will be applied after every step.\cite{bilateral}
 This will also heavily slow down the runtime because the application of the filter takes a few seconds and is applied at every step of modification.
 
 
 \subsection{Without Guide Image}
 \label{sec:withoutguide}
 
-As mentioned in section \ref{TODO}, the analyzed model contains 50 layers, so we will not be showing the results for each one, but rather a selection that we deemed satisfactory.
+As mentioned in section \ref{sec:data}, the analyzed model contains 50 layers, so we will not be showing the results for each one, but rather a selection that we deemed satisfactory.
 Throughout these layers one can find all kinds of features varying from different colors, textures to small parts of objects.
 Looking at (TODO: layer 15/18 + 13/14) one can see that the recognizable features within a layer are definitely not limited to a particular one and also includes transitions(layer 13/14).
 These transitions can either distinguish pixelated regions to very sharp ones.
@@ -58,7 +59,25 @@ Another applied change that can be observed in almost all layers is a slight pur
 \subsection{Repeating Features}
 \label{sec:repeating-features}
 
-Within the different layers we found some to be quite similar.
-Previously we presented layers that differ from each other in form, size and shape. Here we present layers that seem to have learned almost the same features.
-As one can see in figure \ref{TODO}, the images look almost the same, the only real difference is the orientation.
-It looks the enhanced features were rotated.
+Within the different layers we found some to behave quite similar.
+Previously we presented layers that differ from each other in form, size and shape.
+Here we present layers that seem to have learned almost the same features.
+To show the behavior in the clearest way possible we applied dreaming onto the same random generated noise.
+As one can see in the figures \ref{fig:rotated_feature_1} \ref{fig:rotated_feature_2}, the created images look almost the same, the only real difference is the orientation.
+It looks the enhanced features were simply rotated.
+
+\begin{figure}[H]
+	\minipage{0.49\textwidth}
+	\centering
+	\includegraphics[width=1\linewidth]{img/rotated_feature_1.jpg}
+	\caption{Dreamed onto random now with the \enquote{res2c\_branch2b} layer}
+	\label{fig:rotated_feature_1}
+	\endminipage\hfill
+	\minipage{0.49\textwidth}
+	\centering
+	\includegraphics[width=1\linewidth]{img/rotated_feature_2.jpg}
+	\caption{Dreamed onto random now with the \enquote{res2c\_branch2c} layer}
+	\label{fig:rotated_feature_2}
+	\endminipage\hfill
+\end{figure}
+

@@ -5,8 +5,8 @@
 For the upcoming experiments in section \ref{sec:evaluation} we need to decide which network model we use and which images are feasible as source or \emph{guide image}.
 As classification network we chose to use \emph{ResNet}\cite{he2016deep}, shorthand for \emph{Residual Network}, because it is the current state of the art providing the lowest error rate and hence performs best.\cite{cnnComparison}
 It offers three variations differing in the layer amount(50, 101, 152).
-Due to performance reasons, see section \ref{TODO}, we decided to use the ResNet50.
-To apply the \emph{dream} we use a slightly modified version of the original Google deep dream code for the neural network framework caffe\cite{googledeepdream}.
+Due to performance reasons, see section \ref{sec:performance}, we decided to use the ResNet50.
+To apply the \emph{dream} we use a modified version of the original Google deep dream code\cite{deep-dream-github} for the neural network framework caffe\cite{jia2014caffe}.
 
 By analyzing various existing \emph{dreamed images}, we came to the conclusion that images with a lot of varying objects offering different features might lead to more interesting results.
 Hence we were looking for images containing: 
@@ -24,7 +24,6 @@ The second image, visible in figure \ref{fig:imgfield}, is a closeup of some veg
 It contains two of the features we are looking for, namely a landscape with varying vegetation and clouds. It is also advantageous that the grass land in the background is made up of different colors ranging from green to yellow to almost brownish.
 The third image, portrayed in figure \ref{fig:imglandscape}, is similar to the second one. Yet it offers different wanted features because it includes small houses, a forest and only one huge cloud.
 
-%TODO: Hier erwähnen welches  verwendet wird und wie viele Layer es hat
 
 
 \begin{figure}[H]

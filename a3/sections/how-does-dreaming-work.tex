@@ -6,12 +6,12 @@
 % Stochasitic Gradient Descent: Nehm ein paar und nehme den Durchschnitt
 % Backpropagation: Determine how one trainign example want to change the weights and biases
 
-\section{TODO: How Does Dreaming Work}
+\section{Deep Dream Algorithm}
 \label{sec:how}
 
 This section introduces the visual and mathematical aspects of the \emph{Deep Dream} algorithm.
 
-\subsection{Visual Aspects}
+\subsection{TODO: Visual Aspects}
 \label{sec:visual-aspects}
 Deep Dreaming requires a pretrained image recognition neural network and a source image one wishes to modify.
 The source image can be any arbitrary image.
@@ -40,7 +40,7 @@ The differentiation to a \emph{Guided Dream} would then trying to project specif
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{img/neurons-reaction.png}
-	\caption{A small section of an abstract unspecified neural network. The neurons contain artificial features.\cite{nielsen2015neural}.}
+	\caption{TODO: "CAT" entfernen A small section of an abstract unspecified neural network. The neurons contain artificial features.\cite{nielsen2015neural}.}
 	\label{fig:neuronreact}
 \end{figure}
 
@@ -55,7 +55,7 @@ The differentiation to a \emph{Guided Dream} would then trying to project specif
 
 
 
-\subsection{Mathematical Aspects}
+\subsection{TODO: Mathematical Aspects}
 Similar to the training process of a network, the dreaming algorithm is an optimization problem.
 But rather than training a network to classify samples, one takes a pretrained network and modifies the input so that some neurons in the net get more activated.
 
@@ -75,13 +75,12 @@ The negative gradients can be interpret as the direction in which the function s
 For the weight adjustment we merely add the gradients to the weights and biases.
 To prevent too slow learning or \enquote{overshooting} a local minimum a \emph{learning rate} is introduced which is multiplied with the gradients.
 
-%TODO: Vielleicht Layer als l_end beschreiben, damit man dann sowas sagen kann wie: Gradients von Layer 0 - l_end sind berechnet worden
 As already mentioned in the introduction of this section, the goal of the \emph{Deep Dream} algorithm is not to minimize the cost function, but to modify the input so that the activations of certain neurons are maximized.
 For example one can choose a whole layer within the net or just some neurons of a layer whose outputs should be maximized according to the L2 norm.
 A normal forward pass up until the specified layer will compute the activation values.
 The backward pass requires the gradients of the specified layer to be set.
 This can be done in several ways, at this point just assume that the gradients are set to the same values as the activation values of that layer.
-By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole sub model by differentiation using the chain rule.\footnote{TODO Quelle: \url{http://caffe.berkeleyvision.org/tutorial/forward_backward.html}}
+By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole sub model by differentiation using the chain rule.\cite{caffe-backward}
 That's why the gradients (or at least the values) of the specified layer has to be set to something, because every layer needs the gradients from its previous layer in order to work.
 
 
@@ -115,7 +114,7 @@ This small trick does not just lead to different results, it also provides smoot
 
 Because enhanced features can look harsh, especially with a high step size, a good way to smooth things out is to use a filter. 
 The filter can either be applied after every iteration or after every octave.
-In section \ref{sec:todo} the best results are presented and the used filters mentioned.
+In section \ref{sec:evaluation} the best results are presented and the used filters mentioned.
  %TODO eyes bsp
 
 
