@@ -1,27 +1,26 @@
-- benutzte daten + networks entscheiden => hw: darüber als homework schreiben
-  - wenn geht resnet bestes aktuell
-  - was für bild anpassen
-    - weiß! weil voll dream (noise besser? weil paper häufig benutzen)
-    - landschaftsbild alpen
-    - karneval mit vielen leuten weil kostüme
-  - was für guides
-    - kein guide
-    - leiden bild mit häusern und wasser
-    - affen => gorilla
-- was für experimente? => hw: den versuchsaufbau + versuche beschrieben
-  - step_size anpassen
-  - eigenen guide
-  - random guide
-  - TODO: iwas von tensorflow tutorial einbringen (laplace pyramid o.a.)
 
-heute:
-  - bilateral
-  - rumspielen => guide https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/deepdream/deepdream.ipynb
-    - addition von verschiedenen neuronen
-    - square aller neuronen
+tex korrekturen
+matthias:
+- learned vs learnt einheitlich! => learned benutzen
+- groß kleinschreibung
+- alles was in emph oder textit ist klein schreiben und einheitlich emph benutzen
+  - deep dream
+  - gradient ascent / descent
+  - guide image / guided dream
+  - backpropagation
+  - learning rate
+  - loss
+  - backward / forward pass
+  - step size 
+  - learning rate
+  - octaves
+- morgen früh merge
 
+olli:
+- zitate nach ende von punkt
+- captions einheitlich + genau inspizieren da viel copy pasta
+- noise imgs kleiner
+- bei referenzen umbrüche in links?
 
-homework
-- kapitel schreiben (bis 7.05 fertig schreiben für korrektur)
-  - bilateral kapitel mmb
-- layer convolutions auf ausgesuchte images anwenden
+- über nacht bilateral high iter
+- bilateral einbringen
