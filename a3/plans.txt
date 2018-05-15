@@ -15,6 +15,7 @@ matthias:
   - learning rate
   - octaves
 - morgen früh merge
+- strg+f nach fragezeichen!
 
 olli:
 - zitate nach ende von punkt
