@@ -17,7 +17,7 @@ Experiments with different parameters can be found in section \ref{sec:varying-p
 \label{sec:performance}
 The runtime of the \textit{Deep Dream} depends mostly on the size of the input image and the layer amount.
 Using an image of $\approx$600x430 pixels, 30 layers, 10 iterations and 4 \textit{octaves} can already take around 45 minutes and uses up to 14GB of RAM\footnote{executed with a single thread on an i7-5930k@3,5GHz and 32GB RAM}.
-We also implemented the \textit{bilateral} filter which will be applied after every step or after every octave.\cite{bilateral}
+We also implemented the \textit{bilateral} filter which will be applied after every step or after every \textit{octave}.\cite{bilateral}
 This also slows down the runtime because the application of the filter takes a few seconds to compute.
 
 \newpage
@@ -146,7 +146,7 @@ In the \emph{bilateral} run the added houses are barely visible.
 However humans seem to appear in left and right lower corner.
 This is surprising, because in the dream layer collection we created, no humans were found.
 
-Applying the \emph{bilateral} filter after every octave meaning only 4 times in total obviously affects the outcome less stronger, see figure \ref{fig:bilateral2}.
+Applying the \emph{bilateral} filter after every \textit{octave} meaning only 4 times in total obviously affects the outcome less stronger, see figure \ref{fig:bilateral2}.
 The dreaming works very well and the result is less sharp than the previous dreams.
 We consider this beneficial because it enables smoother dreams that look more naturally painted.
 
