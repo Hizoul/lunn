@@ -4,20 +4,20 @@ As described in section \ref{sec:visual-aspects} \emph{deep dreaming} works by s
 In order to select good layers for the dreaming, we let each layer be dreamt onto an image to handpick the layers that offer interesting features.
 Impressive results of that can be seen in section \ref{sec:withoutguide}.
 
-To get a more granular control of the intensified features, one can use a guide image.
-A guided dream, described in section \ref{guided-dreaming}, will select neurons based on the guide image in that layer.
+To get a more granular control of the intensified features, one can use a \textit{guide image}.
+A \textit{guided dream}, described in section \ref{guided-dreaming}, will select neurons based on the \textit{guide image} in that layer.
 The results are presented in section \ref{sec:withguide}.
 
-All images are created using the default parameters given by the Google Deep Dream code.
-These are 4 octaves with a scale factor of 1.4, 10 iterations, a step size of 1.5 and a jitter of 32 pixel.
+All images are created using the default parameters given by the \textit{Google Deep Dream} code.
+These are 4 \textit{octaves} with a scale factor of 1.4, 10 iterations, a step size of 1.5 and a jitter of 32 pixel.
 Experiments with different parameters can be found in section \ref{sec:varying-parameters}.
 
 
 \subsection{Performance Considerations}
 \label{sec:performance}
-The runtime of the deep dream depends mostly on the size of the input image and the layer amount.
-Using an image of $\approx$600x430 pixels, 30 layers, 10 iterations and 4 octaves can already take around 45 minutes to apply and uses up to 14GB of RAM\footnote{single threaded i7-5930k@3,5GHz, 32GB RAM}.
-We also implemented the bilateral filter which will be applied after every step.\cite{bilateral}
+The runtime of the \textit{Deep Dream} depends mostly on the size of the input image and the layer amount.
+Using an image of $\approx$600x430 pixels, 30 layers, 10 iterations and 4 \textit{octaves} can already take around 45 minutes to apply and uses up to 14GB of RAM\footnote{single threaded i7-5930k@3,5GHz, 32GB RAM}.
+We also implemented the \textit{bilateral} filter which will be applied after every step.\cite{bilateral}
 This will also heavily slow down the runtime because the application of the filter takes a few seconds and is applied at every step of modification.
 
 
@@ -107,7 +107,7 @@ By increasing both parameters, we were able to clearly visualize the learned fea
 	\minipage{0.49\textwidth}
 	\centering
 	\includegraphics[width=1\linewidth]{img/houses2.jpg}
-	\caption{Dreamed onto the Beestenmarkt with layer 43 \enquote{res4f\_branch2c} with step size 2.0.}
+	\caption{Dreamed onto the Beestenmarkt with layer 43 \enquote{res4f\_branch2c} with \textit{step size} 2.0.}
 	\label{fig:houses2}
 	\endminipage\hfill
 \end{figure}
@@ -117,11 +117,11 @@ TODO: bilateral
 
 \subsection{With Guide Image}
 \label{sec:withguide}
-Following up on section \ref{guided-dreaming}, we want highlight the possibilities opened up through guided dreaming.
+Following up on section \ref{guided-dreaming}, we want highlight the possibilities opened up through \textit{guided dreaming}.
 We decided to choose a picture of puppies, because the ImageNet dataset contains a large amounts of varying dog breeds.
 Because we let each layer be dreamt onto an image, we could select one that seems to resemble dogs or animals.
 We ended up choosing layer 33 \enquote{res4c\_2b}.
-As one can see, by using only 50 iterations in combination with a guide image, feature of dogs overshadows the original image.
+As one can see, by using only 50 iterations in combination with a \textit{guide image}, feature of dogs overshadows the original image.
 
 We also evaluated the effect of increased step size, but omitted the results because the visual difference was not nearly as clear as in the previous section.
 
@@ -135,7 +135,7 @@ We also evaluated the effect of increased step size, but omitted the results bec
 	\minipage{0.59\textwidth}
 	\centering
 	\includegraphics[width=1\linewidth]{img/guide_dream.jpg}
-	\caption{Dreamed onto the Field with layer 33 \enquote{res4c\_branch2b} using the guide image.}
+	\caption{Dreamed onto the Field with layer 33 \enquote{res4c\_branch2b} using the \textit{guide image}.}
 	\label{fig:guide_dream}
 	\endminipage\hfill
 \end{figure}

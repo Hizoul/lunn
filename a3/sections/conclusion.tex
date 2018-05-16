@@ -1,18 +1,18 @@
 \section{Conclusion}
 \label{sec:conclusion}
-This section is about the observations and conclusion that were made while working on and with Deep Dream.
+This section is about the observations and conclusion that were made while working on and with \textit{Deep Dream}.
 
 % Test: Image modifizieren mit dem Ziel es bestimmt Klassifizieren zu lassen, anschließend diese Behauptung prüfen
 Generally speaking one can see that lower layers tend to select more abstract features such as lines, curves, waves or textures, while higher layers often select more concrete features such as eyes, body parts of animals or vegetation\footnote{we refer lower layers with the early ones and higher layers with later ones during a forward pass}.
 Examples for this were presented in section \ref{sec:evaluation}.
-The presented related work from section \ref{sec:previous-work} generates videos using Deep Dream.
+The presented related work from section \ref{sec:previous-work} generates videos using \textit{Deep Dream}.
 It makes this fact very clear, because it slowly walks from the lower to the higher layers.
 This lets one clearly see the different levels of abstraction encoded in the layers.
 
 We have shown that by increasing certain parameters images can be altered so strongly, that the original can barely be recognized anymore (section \ref{sec:withoutguide}).
-It was also shown, that the features from a \emph{guide image} can successfully be transferred onto the target using Deep Dream in section \ref{sec:withguide}.
+It was also shown, that the features from a \emph{guide image} can successfully be transferred onto the target using \textit{Deep Dream} in section \ref{sec:withguide}.
 
 As described in section \ref{sec:repeating-features}, some learned features seem to repeat across layers in a rotated way.
-This observation supports a claim that was found in the Keras blog.\cite{keras-blog}
+This observation supports a claim that was found in the \textit{Keras} blog.\cite{keras-blog}
 They found that convolutional layers are not rotation invariant and hence features repeat over the layers.
 If one were able to find a method to make them rotation invariant, it could reduce the required layer amount by a large factor.

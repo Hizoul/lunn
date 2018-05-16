@@ -62,7 +62,7 @@ But rather than training a network to classify samples, one takes a pretrained n
 
 When looking at the training process of a (convolutional) neural network, one can see that the weights and biases are changed so that a given error function is minimized.
 Because the error function, for instance \emph{mean squared error}, has a lot of dependencies to the weights and biases the derivation is very complex if not even infeasible.
-That's why the \emph{gradient descent} algorithm is used to find the (global) minimum of the function\footnote{however, using the gradient descent often solely leads to a local minimum} by taking small steps into the direction of the minimum.
+That's why the \emph{gradient descent} algorithm is used to find the (global) minimum of the function\footnote{however, using the \textit{gradient descent} often solely leads to a local minimum} by taking small steps into the direction of the minimum.
 The partial derivative $\frac{\partial C}{\partial w}$ in respect to the weights $w$ and $\frac{\partial C}{\partial b}$ to the biases $b$ of the cost function C is used to calculate how quickly the cost changes when the weights and biases are changed.
 
 So in order to learn a network there are two essential steps:
@@ -80,7 +80,7 @@ For example one can choose a whole layer within the net or just some neurons of 
 A normal forward pass up until the specified layer will compute the activation values.
 The backward pass requires the gradients of the specified layer to be set.
 This can be done in several ways, at this point just assume that the gradients are set to the same values as the activation values of that layer.
-By starting the backward pass the backpropagation algorithm composes the gradient of each previous layer to compute the gradient of the whole sub model by differentiation using the chain rule.\cite{caffe-backward}
+By starting the backward pass the \textit{backpropagation} algorithm composes the gradient of each previous layer to compute the gradient of the whole sub model by differentiation using the chain rule.\cite{caffe-backward}
 That's why the gradients (or at least the values) of the specified layer has to be set to something, because every layer needs the gradients from its previous layer in order to work.
 
 
@@ -99,11 +99,11 @@ Instead of just adding the gradients as they are, one can increase or decrease t
 
 Aside from these two rather simple techniques, \emph{octaves} were also introduced.
 The purpose of this procedure is to scale the image after every dream step.
-An octave refers to one scaled version of the source image.
+An \textit{octave} refers to one scaled version of the source image.
 The increase in image size is supposed to find new features and enhance them.
-One starts with the smallest octave and applies the dreaming.
+One starts with the smallest \textit{octave} and applies the dreaming.
 By calculating the difference between the original and the dreamed image the added or removed features are extracted.
-For the next octave both the source image and the features of the previous octave get scaled by a scaling factor and are then added up together.
+For the next \textit{octave} both the source image and the features of the previous \textit{octave} get scaled by a scaling factor and are then added up together.
 With this technique it is possible to create very large images, which continuously adds more features as the process proceeds.
 
  
@@ -113,7 +113,7 @@ This jitter shift is undone, after the image is modified.
 This small trick does not just lead to different results, it also provides smooth transitions between remarkable enhanced features.
 
 Because enhanced features can look harsh, especially with a high step size, a good way to smooth things out is to use a filter. 
-The filter can either be applied after every iteration or after every octave.
+The filter can either be applied after every iteration or after every \textit{octave}.
 In section \ref{sec:evaluation} the best results are presented and the used filters mentioned.
  %TODO eyes bsp
 

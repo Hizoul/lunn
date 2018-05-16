@@ -4,9 +4,9 @@
 % alle basieren auf der Image Database "ImageNet"
 For the upcoming experiments in section \ref{sec:evaluation} we need to decide which network model we use and which images are feasible as source or \emph{guide image}.
 As classification network we chose to use \emph{ResNet}\cite{he2016deep}, shorthand for \emph{Residual Network}, because it is the current state of the art providing the lowest error rate and hence performs best.\cite{cnnComparison}
-It offers three variations differing in the layer amount(50, 101, 152).
+It offers three variations differing in the layer amount, namely 50, 101, 152.
 Due to performance reasons, see section \ref{sec:performance}, we decided to use the ResNet50.
-To apply the \emph{dream} we use a modified version of the original Google deep dream code\cite{deep-dream-github} for the neural network framework caffe\cite{jia2014caffe}.
+To apply the \emph{dream} we use a modified version of the original \textit{Google Deep Dream} code\cite{deep-dream-github} for the neural network framework \textit{Caffe}\cite{jia2014caffe}.
 
 By analyzing various existing \emph{dreamed images}, we came to the conclusion that images with a lot of varying objects offering different features might lead to more interesting results.
 Hence we were looking for images containing: 
