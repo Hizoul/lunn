@@ -8,23 +8,20 @@
 
 \section{Deep Dream Algorithm}
 \label{sec:how}
-
-This section introduces the visual and mathematical aspects of the \emph{Deep Dream} algorithm.
-
-\subsection{TODO: Visual Aspects}
 \label{sec:visual-aspects}
-Deep Dreaming requires a pretrained image recognition neural network and a source image one wishes to modify.
+
+\emph{Deep Dream} requires a pretrained image recognition neural network and a source image one wishes to modify.
 The source image can be any arbitrary image.
 Figure \ref{fig:neuronreact} portrays a small section of an abstract unspecified neural network.
 The small embedded images in the neurons are examples of features that they learned.
 The combination of all these small features leads to the conclusion of the network.
 
 For the dream one can choose an individual or a set of neurons which should be more activated.
-This is done by modifying the image in such a way that the learned features of  neurons are more present.
+This is done by modifying the image in such a way that the learned features are more present.
 
 An example of this is given in figure \ref{fig:applieddream}.
-Here the neuron on the top of figure \ref{fig:neuronreact} was chosen.
-Hence the image was modified such that the learned features dominates the visual appearance of the image.
+Here the feature on the top of figure \ref{fig:neuronreact} was chosen.
+Hence the image was modified such that the learned feature dominates the visual appearance of the image.
 
 Since it would be close to impossible to find the right combination of neurons to draw a specific object, there is the possibility of using a \textit{Guided Dream}.
 The concrete inner workings of the \textit{Guided Dream} are explained in section \ref{guided-dreaming}.
@@ -32,30 +29,30 @@ For a \textit{Guided Dream} there is a second image involved, which will be refe
 This image is processed by the network and the activations are tracked to modify the source image so that it contains similar features as the guide.
 
 As a relatable real life example imagine looking into the clouds.
-Some of them remind you of familiar objects and your mind transforms them into more like those.
+Some of them remind you of familiar objects and your mind transforms them into those.
 You can think of \emph{Deep Dream} working in a similar manner.
 It is much more thorough in the amount of features it detects.
-The differentiation to a \emph{Guided Dream} would then trying to project specific objects into the clouds.
 
 \begin{figure}[H]
+	\minipage[t]{0.49\textwidth}
 	\centering
 	\includegraphics[width=0.5\linewidth]{img/neurons-reaction.png}
-	\caption{A small section of an abstract convolutional neural network, with three learned artificial features.\cite{nielsen2015neural}.}
+	\caption{A small section of an abstract convolutional neural network, with three learned artificial features.\cite{nielsen2015neural}}
 	\label{fig:neuronreact}
-\end{figure}
-
-\begin{figure}[H]
+	\endminipage\hfill
+	\minipage[t]{0.49\textwidth}
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/applied_neuron.jpg}
+	\includegraphics[width=0.7\linewidth]{img/applied_neuron2.jpg}
 	\caption{A \textit{Deep Dream} onto a landscape which maximizes the activation of the top feature from figure \ref{fig:neuronreact}.\cite{imgmeteora}}
 	\label{fig:applieddream}
+	\endminipage\hfill
 \end{figure}
 
 % https://research.googleblog.com/2015/06/inceptionism-going-deeper-into-neural.html
 
 
 
-\subsection{TODO: Mathematical Aspects}
+\subsection{Inner workings}
 Similar to the training process of a network, the dreaming algorithm is an optimization problem.
 But rather than training a network to classify samples, one takes a pretrained network and modifies the input so that some neurons in the net get more activated.
 
@@ -63,17 +60,16 @@ But rather than training a network to classify samples, one takes a pretrained n
 When looking at the training process of a (convolutional) neural network, one can see that the weights and biases are changed so that a given error function is minimized.
 Because the error function, for instance \emph{mean squared error}, has a lot of dependencies to the weights and biases the derivation is very complex if not even infeasible.
 That's why the \emph{gradient descent} algorithm is used to find the (global) minimum of the function\footnote{however, using the \textit{gradient descent} often solely leads to a local minimum} by taking small steps into the direction of the minimum.
-The partial derivative $\frac{\partial C}{\partial w}$ in respect to the weights $w$ and $\frac{\partial C}{\partial b}$ to the biases $b$ of the cost function C is used to calculate how quickly the cost changes when the weights and biases are changed.
+The partial derivative $\frac{\partial C}{\partial w}$ in respect to the weights $w$ and $\frac{\partial C}{\partial b}$ to the biases $b$ of the cost function C is used to calculate how quickly the cost changes, when the weights and biases are changed.
 
 So in order to learn a network there are two essential steps:
 First there is the \emph{forward} pass, where a sample gets classified by the net.
 Afterwards the error made by the network is calculated with the given cost function.
-The second step, the \emph{backward} pass, consists of the algorithm of the \emph{gradient descent}, often called \emph{backpropagation} in the context of neural networks.
-Based on the error, also called \emph{loss}, the gradients for every weight and bias are calculated.
+The second step, the \emph{backward} pass, consists  of the \emph{gradient descent}, often called \emph{backpropagation} in the context of neural networks.
 
-The negative gradients can be interpret as the direction in which the function should step in order to minimize the loss.
-For the weight adjustment we merely add the gradients to the weights and biases.
-To prevent too slow learning or \enquote{overshooting} a local minimum a \emph{learning rate} is introduced which is multiplied with the gradients.
+The negative gradients can be interpreted as the direction in which the function should step in order to minimize the loss.
+For the weight adjustment one merely adds the gradients to the weights and biases.
+To prevent too slow learning or the \enquote{overshooting} of a local minimum, the \emph{learning rate} is introduced, which is multiplied with the gradients.\cite{Fausett:1994:FNN:197023}
 
 As already mentioned in the introduction of this section, the goal of the \emph{Deep Dream} algorithm is not to minimize the cost function, but to modify the input so that the activations of certain neurons are maximized.
 For example one can choose a whole layer within the net or just some neurons of a layer whose outputs should be maximized according to the L2 norm.
@@ -86,12 +82,12 @@ That's why the gradients (or at least the values) of the specified layer has to 
 
 When the backward pass is done, all gradients are computed.
 Obviously the gradients consists of as many values as there are weights and biases.
-But with Deep Dream only the weights of the input layer are important, because these can be added to the input image.
-By adding the gradients, the activation values at the specified layer will increase or decrease and with that, respectively the features will become more or less present.
+But with \emph{Deep Dream} only the weights of the input layer are important, because these can be added onto the input image.
+By adding the gradients, the activation values at the specified layer will increase or decrease and with that, respectively the features will become more or less present.\cite{deep-dream-blog}\cite{deep-dream-github}
 
 \subsection{Optimizations}
 \label{sec:optimizations}
-Just like in a normal training process of a network, \emph{Deep Dream} is done with multiple iterations.
+Just like in a normal training process of a neural network, \emph{Deep Dream} is done with multiple iterations.
 By repeating the process over and over again, the features become more and more present up to a certain extent.
 
 Another thing that is commonly used is a \emph{step size}, also called \emph{learning rate} in neural networks.
@@ -112,17 +108,16 @@ This influences the activation values which in turn changes the gradients and he
 This jitter shift is undone, after the image is modified.
 This small trick does not just lead to different results, it also provides smooth transitions between remarkable enhanced features.
 
-Because enhanced features can look harsh, especially with a high step size, a good way to smooth things out is to use a filter. 
+Because enhanced features can still look harsh, especially with a high step size, a good way to smooth things out is to use a filter. 
 The filter can either be applied after every iteration or after every \textit{octave}.
 In section \ref{sec:evaluation} the best results are presented and the used filters mentioned.
- %TODO eyes bsp
 
-
+\newpage
 \subsection{Guided Dreaming}
 \label{guided-dreaming}
-As explained in section \ref{sec:visual-aspects}, instead of increasing the occurrence of present features within an image one can also use a reference image in order to achieve \emph{Guided Dreaming}.
+As explained in section \ref{sec:visual-aspects}, instead of increasing the occurrence of present features within an image one can also use a reference image in order to achieve \emph{guided dreaming}.
 The approach begins with a normal forward pass using the \emph{guide image} and saving the activations at the specified layer.
-During the dreaming these activations are set to the gradients at the specified layers.
+During the dreaming process these activations are set to the gradients at the specified layers.
 Doing this leads to results, where the features of the \emph{guide image} are enhanced in the source image.
 
 

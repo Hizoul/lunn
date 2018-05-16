@@ -7,18 +7,17 @@ Before the use of the \textit{gradient ascent}, Zeiler had already developed a m
 
 Simonyan has found that both approaches produce very similar results.
 That is because from a mathematical standpoint the \textit{gradient ascent} is a generalization of the deconvolutional approach.
-This generalization also means that \textit{gradient ascent} can be applied to any arbitrary layer while the deconvolutional neural network is limited to deciphering convolutional layers.\cite{simonyan2013deep}
+This generalization also means that \textit{gradient ascent} can be applied to any arbitrary layer while the deconvolutional neural network is limited to \enquote{deciphering} convolutional layers.\cite{simonyan2013deep}
 
-\subsection{Related Work / Possible Applications}
+\subsection{Related Work \& Possible Applications}
 The visualization of learned features can be used to achieve different artistic things.
 Berov successfully applied \textit{Deep Dream} to imitate the visual effects a person might encounter during a hallucination onto any arbitrary image.\cite{berov2016visual}
 We subjectively consider some of our results, visible in section \ref{sec:evaluation}, to also look quite \enquote{hallucinatory}.
 DiPaola evalutated \textit{Deep Dream} as an alternative to style transfer.
-This technique, also know as \emph{Deep Style}, is used to transform images in a manner that they look like they have been painted in a different style.\cite{dipaola2016using}
-This process is called style transfer
-DiPaola successfully transformed portrait pictures to look like they were painted by Rembrandt or Freud.
+His \emph{Deep Style}, is used to transform images in a manner that they look like they have been painted in a different style.\cite{dipaola2016using}
+With this process, called style transfer, DiPaola successfully transformed portrait pictures to look like they were painted by Rembrandt or Freud.
 
-It is also possible to create entire videos using \textit{Deep Dream}, which Johann Nordberg did.\cite{deep-dream-video}
+\emph{Deep Dream} even enables the creation of entire videos, which Johann Nordberg did.\cite{deep-dream-video}
 This is achieved through zooming and recursion.
 Starting with a single dream, one applies a little zoom and dreams on that image again.
 This process can be repeated indefinitely.
