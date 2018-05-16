@@ -112,7 +112,42 @@ By increasing both parameters, we were able to clearly visualize the learned fea
 	\endminipage\hfill
 \end{figure}
 
-TODO: bilateral
+\subsection{Bilateral Filter}
+\label{sec:bilateral}
+
+As mentioned in section \ref{sec:optimizations}, the bilateral filter is used for smoothing out sharp edges.
+Because feature transitions in dreamed images are sometimes harsh we chose to use this filter.
+
+We decided to apply the filter at two different stages of the dreaming process, using the default parameters but 100 iterations.
+In figure \ref{fig:bilateral1} you can see a dream where the filter is applied after every iteration, hence the filter is applied 400 times.
+This is very clearly visible in the clouds that have turned completely flat and don't give the \emph{Deep Dream} anything to act upon. 
+We also assume, that some added features got smoothed out too quickly.
+
+The generated image underlines the multitude of recognized objects embedded into only a single layer.
+We used the same layer as in figure \ref, which previously generated houses.
+In the bilateral run the added houses are barely visible.
+However humans seem to appear in left and right lower corner.
+This is surprising, because in the dream layer collection we printed, no humans were found.
+
+Applying the bilateral filter after every octave meaning only 4 times in total obviously affects the outcome less stronger, see figure \ref{fig:bilateral2}.
+The dreaming works very well and the result is less sharp than previous dream.
+We consider this beneficial because it enables smoother dreams that look more naturally painted.
+
+
+\begin{figure}[H]
+	\minipage{0.49\textwidth}
+	\centering
+	\includegraphics[width=1\linewidth]{img/bilateral1.jpg}
+	\caption{Dream with layer 43 \emph{res4f\_branch2c} onto the Beestenmarkt with 100 iterations and bilateral filter}
+	\label{fig:bilateral1}
+	\endminipage\hfill
+	\minipage{0.49\textwidth}
+	\centering
+	\includegraphics[width=1\linewidth]{img/beestenmarkt_res5a_branch1_bilateral.jpg}
+	\caption{Dream with layer 44 \emph{res5a\_branch1} onto the Beestenmarkt with 100 iterations and bilateral filter.}
+	\label{fig:bilateral2}
+	\endminipage\hfill
+\end{figure}
 
 
 \subsection{With Guide Image}
