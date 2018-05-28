@@ -1,0 +1,35 @@
+- Bayes Theorem
+	- related to density function (can be multiclass so more than A and B)
+	- P(A|B) => Wenn B wahr dann wahrscheinlichkeit das A
+	- $P(A|B) = P(B|A) * P(A) / P(B)$
+	- $P(B) = P(B|A) * P(A) + P(B|!A) * P(!A)$
+	- change in p(a) or p(b) $P'(A|B) = P(B|A) * P'(A) / P'(B)$
+	- $P'(B) = P(B|A) * P'(A) + P(B|!A) * P'(!A) $
+- optimal decision boundary => joint probability densities
+- loss matrix => cost of false positive / true positive etc.
+	- if we say yes then the cost is: $P(C|yes)*Laa + P(noC|yes)*Lba$
+	- if we say no then the cost is: $P(C|no)*Lba + P(noC|no)*Lbb$
+- netwerk berechnen
+	- normal => $weight_0(bias)+neuron_1*weight_1+neuron_2*weight_2$
+	- NICHT VERGESSEN EINZUSETZEN! aktivierungsfunktion(normal)
+	- partial derivatives (delta weight update rule)
+		- derive to each weight and bias
+		- derviation = $\frac{\delta E(w_0,w_1,w_2)}{\delta w_0}$
+		- derivation = $activation(net())-target)*activation(net'())*weightParam$
+		- updateRule = $learningRate * activation(net())-target)*activation(net'())*weightParam$
+		- weightParam => $neuron_1$ oder für bias => 1
+- XOR solvable if more than one layer => because one layer only hyperplane, two layers => convex open or closed, three layers arbitrary
+- cnn
+			- filter verkleinerung => Filtergröße - 1 bsp. 32 orig 5x5 => 32-4 = 28
+			- Shared Weights => (FilterGrößer*FilterGröße + 1) * amount of feature maps (+1 nur wenn bias!)
+				- if subsampling instead of filter size use 1 or 2 if it has bias
+			- Connections => SharedWeights + FeatureMapSize e.g. (5*5+1)*6*28*28
+			- fully connected => (input*input+1)*(reduced*reduced)*amount of feature maps (32*32+1)*28*28*6 (+1 nur wenn bias!)
+- rnn
+	- bsp. 8000 input 100 hidden 8000 output
+	- 2 * 100 * 8000 + 100 * 100
+	- (input + output) * hidden + hidden * hidden
+- know which activation / error functions are good for which thing
+	- binary classification => sigmoid + cross entropy
+	- multi class => cross entropy + softmax
+	- regression problems => linear + square error

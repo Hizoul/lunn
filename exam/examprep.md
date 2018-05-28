@@ -1,7 +1,7 @@
 # Neural Network Exam Prep
 
 ## Intro
-- History of "classical" NNs#
+- History of "classical" NNs
 	- Pitts & McCulloch => Neuron Definition
 	- Rosenblatt => Convergence Theorem
 	- Widrow => Kind of Backpropagation
@@ -39,6 +39,7 @@
 	- $P(A|B) = \frac{P(B|A) * P(A)}{P(B)}$
 	- enables estimation of posteriror probabilities
 - Optimal Decision Boundary
+	- joint probability densities
 	- e.g. 2 classes. each of them produces a classification value
 	- draw bar graphs in different color per class
 	- find lowest overlap for minimal amount of misclassifications
@@ -61,6 +62,12 @@
 ## Linear Models
 - Linear separability
 	- two classes are linearly seperable if there exists a hyperplane that separates them
+	- formulas always need to be bigger than each other
+	- doesn't imply convexness
+- Cover's Theorem (1965)
+	- what is the chance that randomly labeled set of N Points in d-dimensional space is linearly seperable?
+	- if number of points in d dimensional space smaller than 2*d then probably seperable
+	- $= \frac{N}{d-1}$ => 500 images with 16*16px => d = 16*16; N = 500 =>$\frac{500}{257} \approx 2$
 - Perceptron Learning Algo
 	- find suitable values for wheights such that training set gets classified correctly
 	- geometrically => find hyper-plane that separates two classes
@@ -71,10 +78,6 @@
 	- improvement => count consecutive correct classifications
 	- if best run then keep weights saved for later
 	- converges with probability 1 BUT might be multiple separating hyperplanes and it picked a bad one
-- Cover's Theorem (1965)
-	- what is the chance that randomly labeled set of N Points in d-dimensional space is linearly seperable?
-	- if number of points in d dimensional space smaller than 2*d then probably seperable
-	- $= \frac{N}{d-1}$ => 500 images with 16*16px => d = 16*16; N = 500 =>$\frac{500}{257} \approx 2$
 	- if around 2 probably seperable
 - Adaline
 	- main idea => minimize Mean Squared Error
@@ -87,6 +90,9 @@
 - Multi-class linear separability
 	- there exists c linear discriminant functions such that each x is assigned to a class
 - Multi-class Perceptron (Slide 44)
+- Histogram
+	- data binning leads to loss of information
+	- number of buckets increases exponentially with data dimensionality (feature amount) hence amount of records to classify also exponentially grows
 
 ## MLP and Backpropagation
 - MLP (Multi-layer Perceptron)
@@ -102,8 +108,8 @@
 	- every boolean function can be described by single hidden layer
 	- continous functions any bounded continuous function can be approximated by two hidden layers
 - Backpropagation Algo
-	- forward pass => get result for example so error can be calculated
-	- backward pass => propagate error back grhough the network layer by layer using delta rule to update weights
+	- forward pass => in this step the network is activated on one example and the error of each neuron of the output layer is computed
+	- backward pass => in this step the network error is used for updating the weights. Starting at the output layer, the error is propagated backwards through the network, layer by layer with help of the generalized delta rule. Finally, all weights are updated
 	- doesn't guarranteee convergence, weights initialized randomly
 	- backpropagation => find wanted weight adjustment for a single example
 	- for each example look at activation result for each neuron and desired output
@@ -148,10 +154,12 @@
 	- progressively reduce spatial size of representation
 	- reduce amount of features and hence complexity
 	- reduces e.g. 3x3 to 2x2 etc.
+	- Reduction of resolution (and size) of feature maps, enforcing generalization by losing some information about location of features, filtering out noise.
 - dropout
 	- at each training stage node can be dropped with a probability
 	- for altering weights ignore dropped nodes but reinsert htem after
-	- by not changing all nodes chances of overfitting are decreased
+	- by not changing all nodes chances of overfitting are decreased#
+	- During each cycle of the training process a fraction of neurons (e.g., 50%) is disabled and corresponding weights are not used or affected by the training algorithm. It is a powerful technique of preventing overfitting by reduction of complex co-adaptations of neurons and forcing network to learn more robust features that are useful in conjunction with many different random subsets of the other neurons.
 - ReLU's (???)
 	- alternative to sigmoid, hyperbolic tangent etc.
 	- increases non-linear properties of decision function
@@ -290,10 +298,35 @@
 
 
 # to learn
+- bayes nicht nur umstellen sondern angepasste wahrscheinlichkeiten!
+	- related to density
 - log likelihood => use values from X insert into function, multiply each result. apply log. Log will get bigger with bigger numbers
+	- used in RBM for optimization
+	- in parametric denstiy estimation maximize => product of likelihoods, sum of logarithms of likelihood
 - schätzen wie viel iterationen von gradient descent
+	- $xNeu = xAlt - learningRate* f'(xAlt)$
 - XOR-Problem
+- if all weights are 1 or 0, changes always same => never converges because backpropagation takes derivative from previous layer
 - linear seperability
 - anzahl weights etc. FÜR ALLE NETZWERKE RNN, CNN etc.
+	- cnn
+        - filter verkleinerung => Filtergröße - 1 bsp. 32 orig 5x5 => 32-4 = 28
+        - Shared Weights => (FilterGrößer*FilterGröße + 1) * amount of feature maps
+        - Connections => 28x28 + FilterGröße*FilterGröße+1
+        - fully connected => (input*input+1)*(reduced*reduced)*amount of feature maps
+    - rnn
+    	- bsp. 8000 input 100 hidden 8000 output
+    	- 2 * 100 * 8000 + 100 * 100
+    	- (input + output) * hidden + hidden * hidden
 - contrastive divergence
 	- single update of weights for single input vector => 5 * M * N
+	- anything added increase the 5
+	- The three passes up, down, and up require 3mn multiplications, updating weights (calculation of x0h0-x1h1) requires 2mn more multiplications; thus in total 5mn multiplications are required.
+- gaussian distirbution parameters
+	- means and covariances
+	- amount of means = amount of features
+	- amount of covariances = fakultät von features => für 10 => 10+9+8+7+6+5+4+3+2+1
+	- biggest limiation => data is never normally distributed
+- RBMS + contrastive divergence in detail!!!
+- deep belief network
+- ALLES FÜR RNNS
