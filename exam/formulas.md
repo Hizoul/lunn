@@ -28,8 +28,16 @@
 - rnn
 	- bsp. 8000 input 100 hidden 8000 output
 	- 2 * 100 * 8000 + 100 * 100
-	- (input + output) * hidden + hidden * hidden
+	- 2 * H * C + H^2 (H = hidden, C = input/output)
+	- verbose =>  inputSize * hiddenNodes (Input zu Hidden State) + hiddenNodes * hiddenNodes (alter Hidden state mit neuen verrechnen) + hiddenNodes * outputSize (von Hiddenstate zu output) + hiddenNodes (Biases für Hiddenstate) + outputSize (biases für output)
+	- for lstms => each lstm gate has 4 weights: input, output forget and cell state 
 - know which activation / error functions are good for which thing
 	- binary classification => sigmoid + cross entropy
 	- multi class => cross entropy + softmax
 	- regression problems => linear + square error
+- Restricted Boltzmann Machine
+	- $P(x, h) = \frac{e^{-E(x, h)}}{Z}$
+	- $P(x, h) = P(h|x) P(x)$
+	- $P(h|x) = sigm(ci+Wi*x)$
+	- $P(x|h) = sigm(bi+Wi*h)$
+	- $P(x) = sum_h(P(x,h))$

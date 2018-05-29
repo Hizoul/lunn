@@ -180,6 +180,8 @@
 	- one to many (e.g. image captioning)
 	- many to one (e.g. sentiment analysis)
 	- many to many
+		- sequence input to output e.g. machine translation
+		synced seqnece input and output e.g. classification of video frames
 - RNN (plain)
 	- problems
 		- exploding vanishing gradients
@@ -188,7 +190,14 @@
 	- traditionally all inputs and outputs independent of each other
 	- called recurrent cause same task for every element of sequences is done
 	- plain rnns would use backpropagation through time
+		- unfold network over time+
+		- show the first word compute hidden state and error
+		- show second word, compute hidden state and error etc.
+		- $error(w1,....,wk)=F(U, W, V, w1..., wk)$
+		- use SDG for minimum
 	- because longer sequence => longer network and more problems with error poropagation limited to 5-10 sequences but lstm helps
+	- for new hidden state combine current input with previous state where f is activation (sigmoid) function $f(Uw(t)+Ws(t-1)$
+	- output = softmax of new state
 - LSTM (Long Short Term Memory) Networks
 	- let the network decide which info requires preserving
 	- kept in a cell state vector
@@ -199,8 +208,11 @@
 		- output gate => computes the final output by combining new input, previous output and cell state
 - GRU basically LSTM but simplified => no cell state
 - Leading example of text generation
-- Calculate amount of trainable params
+	- output and input layer size = amount of words as vector
+	- output uses softmax function hence it is a probability distribution
 - Understand difference between stateful and stateless mode
+	- stateless => good for translation because each data point is not interested in the previous one
+	- stateful => good for text gen etc. because info from previous sentences important
 	- *stateful* => reuse cell states from last run / after batch is processed DON'T reset network state
 	- *stateless* => don't reuse cell states from last run / reset network state after batch process
 - Know various usages of RNNs (slide 5)
@@ -210,14 +222,29 @@
 	- video frame classification
 
 ## Autoencoders
-- Key Idea => unsupervised learning of efficient codings
+- features / characteristics
+	- lossy encoding
+	- unsupervised encoding
+	- data dependent => tree encoder can't classify houses
 - Stacked => stacked sparse autoencoder layers are used for image recognition
+- sparsity => if node has activation lower than X set it to 0, leads to lower values in the encoded state (e.g. might lead to less data if instead of long can use int)
 - Denoising
 	- train network with broken to healed pictures
 	- apply result => works quite well
 - Other Applications
+	- dimensionality reduction / compression 
 	- varational autoencoder
+		- train regular autoencoder
+		- project it onto latent space (nice clusters)
+		- combining latent space and learned features it can generate new images
+	- classifying / clustering text documents
 	- sparse => reducing dimensionality in a lossy way
+	- the encoded values can be used for comparison and searching for similarities
+- deep autoencoder
+	- first half uses unsupervised dbns
+	- upper part is mirror of lower part hence not rbm because doesn't go backward again and uses its own independent weights
+	- usually deep autoencoders very difficult to optimize via backrpopagtion:
+		- train stack of 4 rbms; unroll them; fine-tune via backpropagation
 
 ## Optimization
 - Learning as optimization => mimize expected loss over traning dataset
@@ -244,6 +271,25 @@
 	- Nesterov => $p_{new} = momentumRes + b * (momentumRes - momentumResPrev)$
 
 ## RBMs and Deep Belief Networks
+NEW
+- Restricted Boltzmann Machine
+	- 2 layered unsupervised network
+	- nodes have binary values (0 or 1)
+	- for classification uses forward AND backward pass!
+	- trains unlabeled data
+	- automatically extracts useful features from unlabeled input
+	- has data dependent regularlizer that is independent of labels $-log(p(x))$
+	- energy function => 
+	- training purpose => maxime log likelihood of x
+- contrastive divergence
+	- gradient descent with a trick => approximate second term by iterating a random process for a few times (found by hinton)
+	- The three passes up, down, and up require 3mn multiplications, updating weights (calculation of x0h0-x1h1) requires 2mn more multiplications; thus in total 5mn multiplications are required.
+- Deep belief networks
+	- greedily stack rbms
+	- although "unsupervised" learning requires a small labeled data set to associate learned features with the actual labels
+	- somehow solves vanishing gradient problem
+	- attach a feed forward neural network to associate learned features with labels
+-------
 - Restricted Boltzmann Machine
 	- 2 layered unsupervised network
 	- nodes take values 0 or 1
@@ -256,7 +302,12 @@
 - Contrastive Divergence Algo
 	- training undirected graphical models
 	- relies on approximation of gradient
+	- traditional inefficient approach to train a RBM: up, down, up, down ... infinity long, then w_new = learning_rate * (visibleLayer_initial * hiddenLayer_initial - visibleLayer_inf * hiddenLayer_inf)
+	- with CD: w_new = learning_rate * (visibleLayer_initial * hiddenLayer_initial - visibleLayer_1 * hiddenLayer_1)
+- doesn't maximize log likelihood anymore but still works
+	
 - Deep Belief Networks
+	- same structure as classical MLP only way of training different
 	- stack RBMs in a greedy manner
 	- extract deep hierarchical representations of training data
 	- uses unlabeled data
