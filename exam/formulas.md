@@ -6,6 +6,7 @@
 	- change in p(a) or p(b) $P'(A|B) = P(B|A) * P'(A) / P'(B)$
 	- $P'(B) = P(B|A) * P'(A) + P(B|!A) * P'(!A) $
 - optimal decision boundary => joint probability densities
+	- try to maximize P(Ck|x) > P(Cj|x)
 - loss matrix => cost of false positive / true positive etc.
 	- if we say yes then the cost is: $P(C|yes)*Laa + P(noC|yes)*Lba$
 	- if we say no then the cost is: $P(C|no)*Lba + P(noC|no)*Lbb$
@@ -16,7 +17,7 @@
 		- derive to each weight and bias
 		- derviation = $\frac{\delta E(w_0,w_1,w_2)}{\delta w_0}$
 		- derivation = $activation(net())-target)*activation(net'())*weightParam$
-		- updateRule = $learningRate * activation(net())-target)*activation(net'())*weightParam$
+		- updateRule = $learningRate * activation(net())-target *activation(net'()) *weightParam$
 		- weightParam => $neuron_1$ oder für bias => 1
 - XOR solvable if more than one layer => because one layer only hyperplane, two layers => convex open or closed, three layers arbitrary
 - cnn

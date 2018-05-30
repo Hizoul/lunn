@@ -102,9 +102,10 @@
 	- via multi layers this is overcome
 	- require training through backpropagation
 - Expressive Power of MLP (Slide 5)
+	- permutation invariant because no convolution applied
 	- each layer allows for more convex regions to be drawn for classification
 	- single node => single line
-	- one hidden layer => one convex regions
+	- one hidden layer => half plane bounded by hyperplane
 	- two hidden layers => convex open / closed regions
 	- three layer => arbitrary shapes
 	- every boolean function can be described by single hidden layer
@@ -266,7 +267,7 @@
 		- in practice slightly better than momentum
 - Batch Normalization
 	- normalize both input and output at every layer by substracting the batch mean and dividing by batch standard deviation
-	- adds two trainable parameters => standard deviation (gamma) and mean (beta)
+	- adds two trainable parameters PER LAYER => scale Gamma and shift Beta, these two influence two other parameters called standard deviation and mean
 	- reduces the amount by which hidden unit values shift around (covariance shift)
 	- helps independence between layers
 	- enables higher learning rates because activations don't go really high or low anymore
@@ -386,6 +387,10 @@ NEW
 - regression problems => linear + square error
 
 # overfitting prevention
+- dropout
+- pooling
+- (batch) normalization
+- stochastic gradient descnet
 - early stopping
 - regularization L2
 - dropout
@@ -464,3 +469,8 @@ NEW
 Batch normalization
 q-learning
 conv2
+
+# Vanishing / Exploding Gradients
+- simple / plain rnns
+- adding a lot of layers without any sense in an MLP
+- 
