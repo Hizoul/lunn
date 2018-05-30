@@ -41,3 +41,5 @@
 	- $P(h|x) = sigm(ci+Wi*x)$
 	- $P(x|h) = sigm(bi+Wi*h)$
 	- $P(x) = sum_h(P(x,h))$
+- contrastive divergence
+	- $\delta Wij = e ( ViVj0 - ViVj1)$

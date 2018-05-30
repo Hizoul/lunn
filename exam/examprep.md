@@ -87,6 +87,8 @@
 	- replace sign function by smooth approximation and use steepest descent to find weights that minize error
 - Stochastic Gradient Descent
 	- finds minimum of a function (e.g. error function)
+	- works faster
+	- better avoidance of bad local minima
 - Multi-class linear separability
 	- there exists c linear discriminant functions such that each x is assigned to a class
 - Multi-class Perceptron (Slide 44)
@@ -169,6 +171,10 @@
 	- Shared Weights => (FilterGrößer*FilterGröße + 1) * amount of feature maps
 	- Connections => 28x28 + FilterGröße*FilterGröße+1
 	- fully connected => (input*input+1)*(reduced*reduced)*amount of feature maps
+- Which architectural ideas do Convolutional Neural Networks combine to ensure some degree of shift, scale and distortion invariance?
+	- local receptive fields
+	- shared weights
+	- subsampling
 
 ## GPU learning
 - know theano tensorflow keras
@@ -259,12 +265,14 @@
 		- accounts future momentum
 		- in practice slightly better than momentum
 - Batch Normalization
-	- normalize the output of a previous activation layer by substracting the batch mean and dividing by batch standard deviation
+	- normalize both input and output at every layer by substracting the batch mean and dividing by batch standard deviation
 	- adds two trainable parameters => standard deviation (gamma) and mean (beta)
 	- reduces the amount by which hidden unit values shift around (covariance shift)
 	- helps independence between layers
 	- enables higher learning rates because activations don't go really high or low anymore
 	- reduces overfitting through its regularization effects (similar to dropout but less aggressive
+	- prevents exploding or vanishing gradients
+	- easier to get out of local minima
 - Be able to calculate diretion (a = learning rate; gradient )
 	- SGD => $p_{new} = p_{old} - a * gradient$
 	- Momentum => $p_{new} = p_{old} - a * gradient + b * last direction$
@@ -319,11 +327,48 @@ NEW
 	- calculation includes Ratings*Movies*Hiddenlayers NOT USERS! they are data
 
 ## Convolutional Networks 2
-- Details of Alex & ResNet
+- scale up networks => use sparse interactions
+	- sparesly connected (not every neuron connected to every one of the next layer)
+- tiled convolution => cycle between groups of shared parameters
+- AlexNet
+	- 5 convs 3 fully connected layers and 1000way softmax => 8 layers in total
+	- local response normalization
+	- overlapping pooling
+	- uses data augmentation
+		- crop 227 to 224 and also mirror horizontally
+		- change intensity of rgb channels
+	- uses dropout with probability 0.5 and only in the dense fully connected layers
+	- uses sdg with momentum
+	- network has two pipelines so it's faster to learn with two gpus
+- ResNet
+	- currently best image classification net
+	- 152 / 101 / 50 / 34 layer version; the deeper the better
+	- generally => stacking a lot of layers doesn't improve but can worsen results
+	- to solve multi layer problem:
+		- use shallower model with less layers
+		- insert a lot of identity layers 
+		- identity layer = add input value on top of activated value
+	- (almost) no max pooling, no dropout, no fully connected layer
+	- uses batch normalization and data augmentation
 - Treating image boundaries
+	- valid => never go out of bounds
+	- same => pad the input with 0 so convolution does not change resolution
+	- full => pad image with sufficent number of 0s so each pixel is visited exactly k times (k = kernel size)
 - Weight initialization strategies (Glorot, GLorot uniform)
+	- many different possibilites
+	- in / out = amount of input / output nodes
+	- glorot => normally distributed with 0 mean and standard deviation $stddev=sqrt(2/in+out))$
+	- glorot uniform => weights uniformly distributed between -B and +B $B=sqrt(6) / in+out$
 - Data Augmentation
 - Applications
+	- cnn
+		- diagnosing diabetis
+		- cancer 
+	- reinforcement
+		- games
+		- alpha go
+- residual networks
+	- work better because backpropagation can go straight through all layers using shortcuts
 
 ## Q-Learning / Go / Alpha Go Zero
 
@@ -347,6 +392,39 @@ NEW
 - data augmentation
 	- e.g. use known image and apply various filters to it like color, saturation etc.
 
+# Q-Learning / Alpha Go (Zero)
+- classical agent system
+	- states, actions, rewards, policies
+- state solely read through images via CNN
+- data => 4 consecutive frames
+- network => CNN + Q Learning = DQN
+- policy => behaviour function that selects action based on state $action = \pi(s)$
+- function for expected reward (value function) => $Q^\pi (s, a)$
+- q learning
+	- $Q(s, a, w) \approx Q^\pi(s, a)$
+	- objective function via mean squared error
+	- naive q-learning either oscialltes around optimum or diverges completely hence can be unstable
+- deep q learning
+	- target is maximizing the value function by using weights
+	- experience replay => break correlation in data and learn from all past policies
+		- optimize mse between q network and q learning targets
+	- freeze target q network => avoid oscillations and break corellation between q network and target
+		- only periodically update fixed / frozen parameters (weights)
+	- reward / value range: clip rewards or normalize network adaptively (always -1 to +1), prevents gradients becoming too large
+- atari dqn
+	- reward is change in score for that step
+- alpha go zero
+	- trains entirely from self play (no previous data)
+	- no handcrafted features, only observes board state
+	- residual network instead of convolution
+	- previously policy and value seperate networks => now combined
+	- use two feature maps for white and black stones seperately
+	- seven past board states as history => acts as attention mechanism
+	- outputs => value = probability that it's going to win; policy = probability distribution over possible moves
+	- self play usually leads to unstable results => monte carle tree search prevents unstability
+	- for every turn the policy part 1600 possible future turns and use monte carle tree search on that
+	- monte carle tree search improves result, but raw network already almost as good as humans
+	- go is a good example because it's easy to simulate the future, every information needed is easily observable
 
 # to learn
 - bayes nicht nur umstellen sondern angepasste wahrscheinlichkeiten!
@@ -381,3 +459,8 @@ NEW
 - RBMS + contrastive divergence in detail!!!
 - deep belief network
 - ALLES FÜR RNNS
+
+### DO
+Batch normalization
+q-learning
+conv2
